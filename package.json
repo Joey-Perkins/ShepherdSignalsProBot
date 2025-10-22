@@ -1,16 +1,16 @@
 {
-  "name": "ShepherdSignalProfessional",
+  "name": "shepherd-signals-pro-bot",
   "version": "1.0.0",
-  "description": "Bot Telegram pour Shepherd Signals Professional - webhook Render",
+  "description": "Bot Telegram pour Shepherd Signals Professional EA (webhook Render)",
   "type": "module",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
   },
-  "author": "",
+  "author": "Joey Perkins",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.18.2",
-    "telegraf": "^4.12.3"
+    "axios": "^1.6.0",
+    "express": "^4.18.2"
   }
 }
