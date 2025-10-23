@@ -11,15 +11,15 @@ const WEBHOOK_URL = `https://flockmanager.onrender.com${URI}`;
 
 // === Images (à personnaliser) ===
 const IMAGES = {
-  intro: "https://i.imgur.com/abcd123.jpg",
-  features: "https://i.imgur.com/efgh456.jpg",
-  install: "https://i.imgur.com/ijkl789.jpg",
-  mode: "https://i.imgur.com/mnop012.jpg",
-  licence: "https://i.imgur.com/qrst345.jpg",
-  achat: "https://i.imgur.com/uvwx678.jpg",
-  faq: "https://i.imgur.com/yzab901.jpg",
-  contact: "https://i.imgur.com/cdef234.jpg",
-  about: "https://i.imgur.com/ghij567.jpg"
+  intro: "https://raw.githubusercontent.com/Joey-Perkins/ShepherdSignalsProBot/main/Logo.png",
+  features: "https://raw.githubusercontent.com/Joey-Perkins/ShepherdSignalsProBot/main/Features.png",
+  install: "https://raw.githubusercontent.com/Joey-Perkins/ShepherdSignalsProBot/main/Install.png",
+  mode: "https://raw.githubusercontent.com/Joey-Perkins/ShepherdSignalsProBot/main/Mode.png",
+  licence: "https://raw.githubusercontent.com/Joey-Perkins/ShepherdSignalsProBot/main/Licence.png",
+  achat: "https://raw.githubusercontent.com/Joey-Perkins/ShepherdSignalsProBot/main/Achat.png",
+  faq: "https://raw.githubusercontent.com/Joey-Perkins/ShepherdSignalsProBot/main/Faq.png",
+  contact: "https://raw.githubusercontent.com/Joey-Perkins/ShepherdSignalsProBot/main/Contact.png",
+  about: "https://raw.githubusercontent.com/Joey-Perkins/ShepherdSignalsProBot/main/About.png"
 };
 
 // === Menus ===
