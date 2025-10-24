@@ -7,22 +7,9 @@ app.use(express.json());
 const TOKEN = process.env.BOT_TOKEN;
 const TELEGRAM_API = `https://api.telegram.org/bot${TOKEN}`;
 const URI = `/webhook/${TOKEN}`;
-const WEBHOOK_URL = `https://shepherdsignalsprobot.onrender.com${URI}`;
+const WEBHOOK_URL = `https://shepherdsignalsprobot.onrender.com/${URI}`; // adapte à ton nom Render
 
-// === Images (à personnaliser) ===
-const IMAGES = {
-  intro: "https://raw.githubusercontent.com/Joey-Perkins/ShepherdSignalsProBot/main/Logo.png",
-  features: "https://raw.githubusercontent.com/Joey-Perkins/ShepherdSignalsProBot/main/Features.png",
-  install: "https://raw.githubusercontent.com/Joey-Perkins/ShepherdSignalsProBot/main/Install.png",
-  mode: "https://raw.githubusercontent.com/Joey-Perkins/ShepherdSignalsProBot/main/Mode.png",
-  licence: "https://raw.githubusercontent.com/Joey-Perkins/ShepherdSignalsProBot/main/Licence.png",
-  achat: "https://raw.githubusercontent.com/Joey-Perkins/ShepherdSignalsProBot/main/Achat.png",
-  faq: "https://raw.githubusercontent.com/Joey-Perkins/ShepherdSignalsProBot/main/Faq.png",
-  contact: "https://raw.githubusercontent.com/Joey-Perkins/ShepherdSignalsProBot/main/Contact.png",
-  about: "https://raw.githubusercontent.com/Joey-Perkins/ShepherdSignalsProBot/main/About.png"
-};
-
-// === Menus ===
+// === 🎛 Menus ===
 const mainMenu = {
   reply_markup: {
     inline_keyboard: [
@@ -47,162 +34,201 @@ const commandesMenu = {
   }
 };
 
-// === Webhook principal ===
+// === 🧭 ROUTE WEBHOOK ===
 app.post(URI, async (req, res) => {
-  const msg = req.body.message;
-  const cb = req.body.callback_query;
+  const message = req.body.message;
+  const callback = req.body.callback_query;
 
   try {
-    // === /start ===
-    if (msg && msg.text === "/start") {
-      const name = msg.from.first_name || "cher trader";
-      const text = `
+    // === Message de démarrage ===
+    if (message && message.text === "/start") {
+      const name = message.from.first_name || "cher trader";
+
+      const welcomeMessage = `
 👋 *Bonjour et bienvenue ${name}\\!*  
 
-Je suis *Flock Manager*, ton bot assistant pour *Shepherd Signals Professional* 🚀  
+Je suis *Flock Manager*, ton bot assistant officiel pour *Shepherd Signals Professional* 🚀  
 
-🌟 *Shepherd Signals Professional* transforme ton trading sur *MetaTrader 5* grâce à une intégration Telegram en temps réel\.  
+🌟 *Shepherd Signals Professional* est un Expert Advisor (EA) avancé pour *MetaTrader 5*, combinant performance, sécurité et alertes Telegram en temps réel\.  
 
 📲 *Compatible* : MetaTrader 5  
-🔗 *Communauté* : @ShepherdSignalsProfessional  
+🔗 *Communauté Telegram* : @ShepherdSignalsProfessional  
 📩 *Support* : lesbonnesaffaires2025@gmail\\.com  
 
-👇 Clique sur *Commandes disponibles* pour explorer mes rubriques 👇`;
+👇 Clique sur *Commandes disponibles* pour explorer mes fonctionnalités 👇
+      `;
 
-      await axios.post(`${TELEGRAM_API}/sendPhoto`, {
-        chat_id: msg.chat.id,
-        photo: IMAGES.intro,
-        caption: text,
+      await axios.post(`${TELEGRAM_API}/sendMessage`, {
+        chat_id: message.chat.id,
+        text: welcomeMessage,
         parse_mode: "MarkdownV2",
-        ...mainMenu
+        ...mainMenu,
       });
     }
 
-    // === Boutons ===
-    if (cb) {
-      const id = cb.message.chat.id;
-      const data = cb.data;
-      let caption = "";
-      let photo = IMAGES.intro;
+    // === Gestion des boutons ===
+    if (callback) {
+      const chatId = callback.message.chat.id;
+      const data = callback.data;
+
+      let text = "";
       let markup = commandesMenu;
 
       switch (data) {
         case "menu_commandes":
-          caption = "🧭 *Commandes disponibles* – choisis une section ci-dessous 👇";
+          text = `🧭 *Commandes disponibles*  
+
+Découvre ci\-dessous les principales rubriques du bot 👇`;
           break;
 
         case "fonctionnalites":
-          photo = IMAGES.features;
-          caption = `🎯 *Fonctionnalités principales*  
+          text = `🎯 *Fonctionnalités principales*  
 
 • 🚀 Copie automatique des signaux  
-• 📩 Notifications instantanées  
-• 📸 Captures automatiques  
-• ⚖️ Gestion du risque  
+• 📩 Notifications instantanées Telegram  
+• 📸 Captures de graphiques  
+• 🧠 Briefing quotidien \(manuel & automatique\)  
+• ⚖️ Gestion intelligente du risque  
 • 🔔 Alertes en temps réel  
-• 🖥 Interface multilingue 🇫🇷 🇬🇧 🇪🇸  
+• 🖥 Interface intuitive et multilingue 🇫🇷 🇬🇧 🇪🇸  
 
-🔐 *Licence vérifiée en temps réel*`;
+🔐 *Sécurisé par licence en ligne vérifiée en temps réel*`;
           break;
 
         case "installation":
-          photo = IMAGES.install;
-          caption = `🎛 *Tutoriel d'installation*  
+          text = `🎛 *Tutoriel d'installation*  
 
-1️⃣ Télécharge \`ShepherdSignalsProfessional.ex5\`  
-2️⃣ Colle-le dans *MQL5/Experts/*  
-3️⃣ Active *Allow WebRequest*  
-4️⃣ Ajoute :  
-• https://api\\.telegram\\.org  
-• https://script\\.google\\.com  
-• https://script\\.googleusercontent\\.com  
-5️⃣ Glisse l’EA sur un graphique et configure tes paramètres`;
+*Étape 1* \- Téléchargement  
+• Fichier : \`Shepherd Signals Professional\\.ex5\`  
+
+*Étape 2* \- Installation  
+• Ouvre MetaTrader 5  
+• Menu : *File → Open Data Folder*  
+• Colle le fichier dans *MQL5/Experts/*  
+
+*Étape 3* \- Configuration MT5  
+• Menu : *Tools → Options → Expert Advisors*  
+• Coche : *Allow WebRequest*  
+• Ajoute :  
+  • https://api\\.telegram\\.org  
+  • https://script\\.google\\.com  
+  • https://script\\.googleusercontent\\.com  
+
+*Étape 4* \- Activation  
+• Glisse l’EA sur un graphique  
+• Remplis *botToken*, *chatID* et *clé licence*  
+• Active *trading algorithmique*  
+
+⏳ *Patiente quelques secondes pour l’activation complète*`;
           break;
 
         case "mode_emploi":
-          photo = IMAGES.mode;
-          caption = `📖 *Mode d'emploi*  
+          text = `📖 *Mode d'emploi*  
 
+1️⃣ *Configuration initiale*  
+• Ajoute ton token et chat ID  
+• Vérifie la licence  
+• Active WebRequest  
+
+2️⃣ *Boutons de contrôle*  
 • ON/OFF → activer/désactiver  
 • BUY/SELL → signaux manuels  
-• BRIEFING → résumé quotidien  
-• SCREENSHOT → capture immédiate  
+• PENDING → ordres différés  
+• BRIEFING → résumé journalier  
+• SCREENSHOT → capture instantanée  
 
-🔔 *Alertes et surveillances automatiques incluses*`;
+3️⃣ *Alertes automatiques*  
+• Envoi automatique des signaux  
+• Briefings programmés  
+
+4️⃣ *Surveillance du compte*  
+• Équité en temps réel  
+• Alertes sur marge et drawdown`;
           break;
 
         case "licence":
-          photo = IMAGES.licence;
-          caption = `🔑 *Système de licence*  
+          text = `🔑 *Système de licence*  
 
-Activation automatique ✅  
-Anti-fraude 🔒  
-Multi-comptes 💼  
+💡 *Activation automatique en ligne*  
+✅ Support multi\-comptes  
+✅ Détection anti\-fraude  
 
-Licences : DEMO • STARTER • PREMIUM • ULTIMATE • INFINITY`;
+*Types de licences* :  
+• DEMO \- 10 jours  
+• STARTER \- 30 jours  
+• PREMIUM \- 90 jours  
+• ULTIMATE \- 365 jours  
+• INFINITY \- Illimitée  
+
+🛡 *Fiabilité garantie et sécurité renforcée*`;
           break;
 
         case "achat":
-          photo = IMAGES.achat;
-          caption = `🛒 *Achat de l’EA*  
+          text = `🛒 *Achat de l'EA*  
 
+💰 DEMO (10 jours) – 0 €
 💰 STARTER – 15 €/mois  
 💰 PREMIUM – 40 €/3 mois  
 💰 ULTIMATE – 120 €/an  
-💰 INFINITY – 197 € unique  
+💰 INFINITY – 197 € unique
 
-💳 PayPal | Binance | MTN | VISA  
-📩 Contact : @JoeyPerkins`;
+💳 *Paiements acceptés* : PayPal, Binance, MTN, Orange Money, VISA ... etc 
+
+📩 Contact direct : @JoeyPerkins`;
           break;
 
         case "faq":
-          photo = IMAGES.faq;
-          caption = `❔ *FAQ*  
+          text = `❔ *Foire aux questions \(FAQ\)*  
 
-• L’EA n’envoie pas de messages ? → Vérifie WebRequest  
-• Obtenir mon Chat ID ? → @userinfobot  
-• Screenshots ? → Vérifie MQL5/Files  
+*Q:* L’EA n’envoie pas de messages ?  
+*A:* Vérifie les WebRequest et tokens\.  
 
-📩 Support : lesbonnesaffaires2025@gmail\\.com`;
+*Q:* Comment obtenir mon Chat ID ?  
+*A:* Écris à @userinfobot\.  
+
+*Q:* Les captures ne fonctionnent pas ?  
+*A:* Vérifie les permissions dans MQL5/Files\.  
+
+*Q:* Compatible VPS ?  
+*A:* Oui, 100\\% compatible\.  
+
+📩 *Contact support* : lesbonnesaffaires2025@gmail\\.com`;
           break;
 
         case "contact":
-          photo = IMAGES.contact;
-          caption = `👥 *Support & Contact*  
+          text = `👥 *Support & Contact*  
 
-📧 lesbonnesaffaires2025@gmail\\.com  
-📢 https://t\\.me/ShepherdSignalsProfessional  
+📧 Email : lesbonnesaffaires2025@gmail\\.com  
+📢 Canal : https://t\\.me/ShepherdSignalsProfessional  
+💬 Groupe privé : via le canal officiel  
 
-🕘 Lun-Ven 9h-18h GMT  
-🌍 FR / EN – Assistance complète`;
+🕘 Lun\-Ven, 9h\-18h GMT  
+🌍 FR / EN  
+🔧 Assistance installation & personnalisation`;
           break;
 
         case "apropos":
-          photo = IMAGES.about;
-          caption = `💡 *À propos*  
+          text = `💡 *À propos de Shepherd Signals Professional*  
 
-*Shepherd Signals Professional* suit tes performances MT5, envoie des alertes Telegram et optimise la gestion du risque\.  
+Un *Expert Advisor MQL5* pour le suivi automatisé des performances, les alertes Telegram et la gestion proactive du risque\.  
 
-© 2025 Joey Perkins DJOMOL JOSEPH`;
+📦 Version : 1\\.0  
+© 2025 *Joey Perkins DJOMOL JOSEPH*  
+Tous droits réservés\.`;
           break;
 
         case "back_main":
-          caption = "⬅️ *Retour au menu principal*";
+          text = "⬅️ *Retour au menu principal*";
           markup = mainMenu;
           break;
       }
 
-      // Mise à jour avec image
-      await axios.post(`${TELEGRAM_API}/editMessageMedia`, {
-        chat_id: id,
-        message_id: cb.message.message_id,
-        media: {
-          type: "photo",
-          media: photo,
-          caption,
-          parse_mode: "MarkdownV2"
-        },
-        ...markup
+      await axios.post(`${TELEGRAM_API}/editMessageText`, {
+        chat_id: chatId,
+        message_id: callback.message.message_id,
+        text,
+        parse_mode: "MarkdownV2",
+        ...markup,
       });
     }
 
@@ -213,8 +239,8 @@ Licences : DEMO • STARTER • PREMIUM • ULTIMATE • INFINITY`;
   }
 });
 
-// === Lancement ===
+// === Démarrage serveur ===
 app.listen(3000, async () => {
-  console.log("🤖 Flock Manager – Interactive Pro prêt !");
+  console.log("🤖 Flock Manager (version Premium) est en ligne !");
   await axios.post(`${TELEGRAM_API}/setWebhook`, { url: WEBHOOK_URL });
 });
