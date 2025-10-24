@@ -6,7 +6,7 @@ app.use(express.json());
 
 const TOKEN = process.env.BOT_TOKEN;
 const TELEGRAM_API = `https://api.telegram.org/bot${TOKEN}`;
-const URI = `/webhook/${TOKEN}`;
+const URI = `/telegram/${TOKEN}`;
 const WEBHOOK_URL = `https://shepherdsignalsprobot.onrender.com${URI}`;
 
 // === Images (à personnaliser) ===
