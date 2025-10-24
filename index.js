@@ -57,23 +57,22 @@ app.post(URI, async (req, res) => {
     if (msg && msg.text === "/start") {
       const name = msg.from.first_name || "cher trader";
       const text = `
-👋 *Bonjour et bienvenue ${name}\\!*  
+👋 <b>Bonjour et bienvenue ${name} !</b><br><br>
+Je suis <b>Flock Manager</b>, ton bot assistant pour <b>Shepherd Signals Professional</b> 🚀<br><br>
 
-Je suis *Flock Manager*, ton bot assistant pour *Shepherd Signals Professional* 🚀  
+<b>Shepherd Signals Professional</b> est un EA avancé pour <b>MetaTrader 5</b> qui transforme ton trading grâce à une intégration <i>Telegram</i> en temps réel.<br><br>
 
-🌟 *Shepherd Signals Professional* transforme ton trading sur *MetaTrader 5* grâce à une intégration Telegram en temps réel\.  
+📲 <b>Compatible :</b> MetaTrader 5<br>
+🔗 <b>Communauté :</b> @ShepherdSignalsProfessional<br>
+📩 <b>Support :</b> lesbonnesaffaires2025@gmail.com<br><br>
 
-📲 *Compatible* : MetaTrader 5  
-🔗 *Communauté* : @ShepherdSignalsProfessional  
-📩 *Support* : lesbonnesaffaires2025@gmail\\.com  
-
-👇 Clique sur *Commandes disponibles* pour explorer mes rubriques 👇`;
+👇 Découvre les <b>commandes disponibles</b> ci-dessous 👇`;
 
       await axios.post(`${TELEGRAM_API}/sendPhoto`, {
         chat_id: msg.chat.id,
         photo: IMAGES.intro,
         caption: text,
-        parse_mode: "MarkdownV2",
+        parse_mode: "HTML",
         ...mainMenu
       });
     }
@@ -88,111 +87,99 @@ Je suis *Flock Manager*, ton bot assistant pour *Shepherd Signals Professional* 
 
       switch (data) {
         case "menu_commandes":
-          caption = "🧭 *Commandes disponibles* – choisis une section ci-dessous 👇";
+          caption = "🧭 <b>Commandes disponibles</b><br>Choisis une section ci-dessous 👇";
           break;
 
         case "fonctionnalites":
           photo = IMAGES.features;
-          caption = `🎯 *Fonctionnalités principales*  
-
-• 🚀 Copie automatique des signaux  
-• 📩 Notifications instantanées  
-• 📸 Captures automatiques  
-• ⚖️ Gestion du risque  
-• 🔔 Alertes en temps réel  
-• 🖥 Interface multilingue 🇫🇷 🇬🇧 🇪🇸  
-
-🔐 *Licence vérifiée en temps réel*`;
+          caption = `🎯 <b>Fonctionnalités principales</b><br><br>
+🚀 Copie automatique des signaux<br>
+📩 Notifications instantanées<br>
+📸 Captures automatiques<br>
+⚖️ Gestion du risque<br>
+🔔 Alertes en temps réel<br>
+🖥 Interface multilingue 🇫🇷 🇬🇧 🇪🇸<br><br>
+🔐 <i>Licence vérifiée en temps réel</i>`;
           break;
 
         case "installation":
           photo = IMAGES.install;
-          caption = `🎛 *Tutoriel d'installation*  
-
-1️⃣ Télécharge \`ShepherdSignalsProfessional.ex5\`  
-2️⃣ Colle-le dans *MQL5/Experts/*  
-3️⃣ Active *Allow WebRequest*  
-4️⃣ Ajoute :  
-• https://api\\.telegram\\.org  
-• https://script\\.google\\.com  
-• https://script\\.googleusercontent\\.com  
-5️⃣ Glisse l’EA sur un graphique et configure tes paramètres`;
+          caption = `🎛 <b>Tutoriel d'installation</b><br><br>
+<b>1️⃣ Téléchargement :</b> ShepherdSignalsProfessional.ex5<br>
+<b>2️⃣ Installation :</b> Copie le fichier dans <i>MQL5/Experts/</i><br>
+<b>3️⃣ Active :</b> "Allow WebRequest"<br>
+<b>4️⃣ Ajoute les URLs :</b><br>
+&nbsp;&nbsp;• https://api.telegram.org<br>
+&nbsp;&nbsp;• https://script.google.com<br>
+&nbsp;&nbsp;• https://script.googleusercontent.com<br>
+<b>5️⃣ Active l’EA</b> sur un graphique et configure ton token, chat ID et licence.`;
           break;
 
         case "mode_emploi":
           photo = IMAGES.mode;
-          caption = `📖 *Mode d'emploi*  
-
-• ON/OFF → activer/désactiver  
-• BUY/SELL → signaux manuels  
-• BRIEFING → résumé quotidien  
-• SCREENSHOT → capture immédiate  
-
-🔔 *Alertes et surveillances automatiques incluses*`;
+          caption = `📖 <b>Mode d'emploi</b><br><br>
+🧭 <b>Commandes principales :</b><br>
+• ON/OFF → activer/désactiver<br>
+• BUY/SELL → signaux manuels<br>
+• BRIEFING → résumé quotidien<br>
+• SCREENSHOT → capture immédiate<br><br>
+🔔 <i>Alertes et surveillance automatiques incluses</i>`;
           break;
 
         case "licence":
           photo = IMAGES.licence;
-          caption = `🔑 *Système de licence*  
-
-Activation automatique ✅  
-Anti-fraude 🔒  
-Multi-comptes 💼  
-
-Licences : DEMO • STARTER • PREMIUM • ULTIMATE • INFINITY`;
+          caption = `🔑 <b>Système de licence</b><br><br>
+Activation automatique ✅<br>
+Détection anti-fraude 🔒<br>
+Multi-comptes 💼<br><br>
+<b>Types :</b> DEMO • STARTER • PREMIUM • ULTIMATE • INFINITY`;
           break;
 
         case "achat":
           photo = IMAGES.achat;
-          caption = `🛒 *Achat de l’EA*  
-
-💰 STARTER – 15 €/mois  
-💰 PREMIUM – 40 €/3 mois  
-💰 ULTIMATE – 120 €/an  
-💰 INFINITY – 197 € unique  
-
-💳 PayPal | Binance | MTN | VISA  
-📩 Contact : @JoeyPerkins`;
+          caption = `🛒 <b>Achat de l’EA</b><br><br>
+💰 <b>STARTER</b> – 15 €/mois<br>
+💰 <b>PREMIUM</b> – 40 €/3 mois<br>
+💰 <b>ULTIMATE</b> – 120 €/an<br>
+💰 <b>INFINITY</b> – 197 € unique<br><br>
+💳 PayPal | Binance | MTN | VISA<br>
+📩 <i>Contact :</i> @JoeyPerkins`;
           break;
 
         case "faq":
           photo = IMAGES.faq;
-          caption = `❔ *FAQ*  
-
-• L’EA n’envoie pas de messages ? → Vérifie WebRequest  
-• Obtenir mon Chat ID ? → @userinfobot  
-• Screenshots ? → Vérifie MQL5/Files  
-
-📩 Support : lesbonnesaffaires2025@gmail\\.com`;
+          caption = `❔ <b>FAQ</b><br><br>
+<b>Q :</b> L’EA n’envoie pas de messages ?<br>
+<b>R :</b> Vérifie WebRequest.<br><br>
+<b>Q :</b> Comment obtenir mon Chat ID ?<br>
+<b>R :</b> Envoie un message à @userinfobot.<br><br>
+<b>Q :</b> Screenshots ne fonctionnent pas ?<br>
+<b>R :</b> Vérifie le dossier MQL5/Files.<br><br>
+📩 <i>Support :</i> lesbonnesaffaires2025@gmail.com`;
           break;
 
         case "contact":
           photo = IMAGES.contact;
-          caption = `👥 *Support & Contact*  
-
-📧 lesbonnesaffaires2025@gmail\\.com  
-📢 https://t\\.me/ShepherdSignalsProfessional  
-
-🕘 Lun-Ven 9h-18h GMT  
+          caption = `👥 <b>Support & Contact</b><br><br>
+📧 lesbonnesaffaires2025@gmail.com<br>
+📢 <a href="https://t.me/ShepherdSignalsProfessional">Canal Telegram</a><br><br>
+🕘 Lun–Ven 9h–18h GMT<br>
 🌍 FR / EN – Assistance complète`;
           break;
 
         case "apropos":
           photo = IMAGES.about;
-          caption = `💡 *À propos*  
-
-*Shepherd Signals Professional* suit tes performances MT5, envoie des alertes Telegram et optimise la gestion du risque\.  
-
-© 2025 Joey Perkins DJOMOL JOSEPH`;
+          caption = `💡 <b>À propos</b><br><br>
+<b>Shepherd Signals Professional</b> est un Expert Advisor conçu pour le suivi automatisé des performances avec alertes Telegram en temps réel et gestion intelligente du risque.<br><br>
+<i>Version 1.0 – © 2025 Joey Perkins DJOMOL JOSEPH</i>`;
           break;
 
         case "back_main":
-          caption = "⬅️ *Retour au menu principal*";
+          caption = "⬅️ <b>Retour au menu principal</b>";
           markup = mainMenu;
           break;
       }
 
-      // Mise à jour avec image
       await axios.post(`${TELEGRAM_API}/editMessageMedia`, {
         chat_id: id,
         message_id: cb.message.message_id,
@@ -200,7 +187,7 @@ Licences : DEMO • STARTER • PREMIUM • ULTIMATE • INFINITY`;
           type: "photo",
           media: photo,
           caption,
-          parse_mode: "MarkdownV2"
+          parse_mode: "HTML"
         },
         ...markup
       });
