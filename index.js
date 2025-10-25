@@ -9,7 +9,7 @@ const TELEGRAM_API = `https://api.telegram.org/bot${TOKEN}`;
 const URI = `/webhook/${TOKEN}`;
 const WEBHOOK_URL = `https://shepherdsignalsprobot.onrender.com${URI}`; // adapte si ton nom Render change
 
-/ ===============================
+// ===============================
 // 🧠 Stock des états utilisateurs
 // ===============================
 const userState = {};
