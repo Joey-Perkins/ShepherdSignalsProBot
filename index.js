@@ -242,7 +242,7 @@ Types :
           break;*/
           
         case "achat":
-          text = "🛒 *Achat de l'EA* :\n\nAvant de continuer, indique ton **adresse email** (ex: tonmail@gmail.com)";
+          text = `🛒 *Achat de l'EA* :\n\nAvant de continuer, indique ton **adresse email** (ex: tonmail@gmail.com)";
           userState[chatId] = "waiting_email";
           markup = null;
           break;
@@ -256,7 +256,7 @@ Types :
           const email = userData[chatId]?.email || "non fourni";
           const username = callback.from.username || "anonyme";
 
-          text = `✅ *Demande enregistrée !*\n\n👤 Utilisateur : @${username}\n📧 Email : ${email}\n🔑 Type : ${type}\n\n💾 (Sauvegarde dans Google Sheet à venir)`;
+          text = ✅ *Demande enregistrée !*\n\n👤 Utilisateur : @${username}\n📧 Email : ${email}\n🔑 Type : ${type}\n\n💾 (Sauvegarde dans Google Sheet à venir)`;
           markup = mainMenu;
           break;
 
