@@ -15,7 +15,7 @@ const WEBHOOK_URL = `https://shepherdsignalsprobot.onrender.com${URI}`; // adapt
 const mainMenu = {
   reply_markup: {
     inline_keyboard: [
-      [{ text: "📜 Commandes disponibles" || "/help", callback_data: "menu_commandes" }]
+      [{ text: "📜 Commandes disponibles", callback_data: "menu_commandes" }]
     ]
   }
 };
