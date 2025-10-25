@@ -103,8 +103,6 @@ Je suis *Flock Manager*, ton assistant virtuel pour découvrir, installer, param
 🧭 *Commandes disponibles* :
 
 • /start — Revenir à l'accueil  
-• /help — Afficher ce menu  
-• Accéder via boutons : fonctionnalités, installation, licence, achat, etc.  
 
 👇 Sélectionne une section ci-dessous pour explorer Shepherd Signals Professional :
     `;
