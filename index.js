@@ -147,13 +147,13 @@ Essaie plutôt /start ou /help pour naviguer dans le bot.
         case "fonctionnalites":
           text = `🎯 *Fonctionnalités principales* :  
 
-- Copie automatique de signaux vers Telegram  
+- Copie automatique de signaux vers Telegram 📲
 - Notifications instantanées 📩  
 - Capture d’écran automatique 📸  
-- Briefing quotidien (manuel & auto)  
+- Briefing quotidien (manuel & auto) 📝
 - Gestion proactive du risque ⚖️  
 - Alertes en temps réel 🔔  
-- Interface simple avec boutons intégrés  
+- Interface simple avec boutons intégrés 📍
 - Multi-langues 🇫🇷 🇬🇧 🇪🇸  
 
 🔐 *Sécurisé avec clé de licence vérifiée en temps réel.*`;
@@ -183,24 +183,27 @@ Essaie plutôt /start ou /help pour naviguer dans le bot.
           text = `📖 *Mode d'emploi* :  
 
 1️⃣ *Configuration initiale* 📝  
-- Token + chat ID Telegram  
-- Licence valide  
-- WebRequest autorisé  
+    - Token + chat ID Telegram  
+    - Licence valide  
+    - WebRequest autorisé  
 
 2️⃣ *Boutons EA* 🖱  
-- ON/OFF → active/désactive  
-- BUY/SELL → signaux manuels  
-- PENDING → ordres en attente  
-- BRIEFING → rapport quotidien  
-- SCREENSHOT → capture manuelle  
+    - ON/OFF → active/désactive  
+    - BUY/SELL → signaux manuels  
+    - PENDING → ordres en attente  
+    - BRIEFING → rapport quotidien  
+    - SCREENSHOT → capture manuelle
+    - 🔎 → cacher le panneau des boutons
 
 3️⃣ *Alertes automatiques* 🔔  
-- Signaux temps réel  
-- Briefing programmé  
+    - Signaux temps réel  
+    - Briefing programmé  
 
 4️⃣ *Surveillance du compte* 📊  
-- Équité & marges  
-- Margin call détecté`;
+    - Équité & marges  
+    - Margin call détecté
+    
+🆒 Convient à toutes les catégories de traders, amateurs comme professionnels.`;
           break;
 
         case "licence":
@@ -210,11 +213,11 @@ Essaie plutôt /start ou /help pour naviguer dans le bot.
 *Fonctionnalités* : support multi-comptes, détection anti-fraude.  
 
 Types :  
-- DEMO (10 jours)  
-- STARTER (30 jours)  
-- PREMIUM (90 jours)  
-- ULTIMATE (365 jours)  
-- INFINITY (illimité)  
+    - DEMO (10 jours)  
+    - STARTER (30 jours)  
+    - PREMIUM (90 jours)  
+    - ULTIMATE (365 jours)  
+    - INFINITY (illimité)  
 
 🛡 *Sécurisé et fiable.*`;
           break;
@@ -269,7 +272,8 @@ Types :
 *Shepherd Signals Professional* est un EA MQL5 pour le suivi automatisé des performances avec alertes Telegram et gestion intelligente des risques.  
 
 Version : *1.0*  
-© 2025 *Joey Perkins D.J.* — Tous droits réservés.`;
+
+©️ 2025, *Joey Perkins D.J.* — Tous droits réservés.`;
           break;
 
         case "back_main":
