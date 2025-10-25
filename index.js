@@ -242,7 +242,7 @@ Types :
           break;*/
           
         case "achat":
-          text = `🛒 *Achat de l'EA* :\n\nAvant de continuer, indique ton **adresse email** (ex: tonmail@gmail.com)";
+          text = `🛒 *Achat de l'EA* :\n\nAvant de continuer, indique ton **adresse email** (ex: tonmail@gmail.com)`;
           userState[chatId] = "waiting_email";
           markup = null;
           break;
@@ -254,9 +254,9 @@ Types :
         case "lic_infinity":
           const type = data.split("_")[1].toUpperCase();
           const email = userData[chatId]?.email || "non fourni";
-          const name = message.from.first_name || "cher trader";
+          const username = callback.from?.username || "anonyme";
 
-          text = ✅ *Demande enregistrée !*\n\n👤 Utilisateur : @${name}\n📧 Email : ${email}\n🔑 Type : ${type}\n\n💾 (Sauvegarde dans Google Sheet à venir)`;
+          text = `✅ *Demande enregistrée !*\n\n👤 Utilisateur : @${username}\n📧 Email : ${email}\n🔑 Type : ${type}`;//💾 (Sauvegarde dans Google Sheet à venir)`
           markup = mainMenu;
           break;
 
