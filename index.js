@@ -44,7 +44,7 @@ app.post(URI, async (req, res) => {
 
   try {
     // === Démarrage du bot ===
-    if (message && message.text === "/start") {
+    /*if (message && message.text === "/start") {
       const name = message.from.first_name || "cher trader";
 
       const welcomeMessage = `
@@ -67,7 +67,70 @@ Je suis *Flock Manager*, ton assistant virtuel pour découvrir, installer, param
         parse_mode: "Markdown",
         ...mainMenu,
       });
-    }
+    }*/
+    // === Démarrage du bot ===
+if (message && message.text) {
+  const textCmd = message.text.trim().toLowerCase();
+  const name = message.from.first_name || "cher trader";
+
+  // --- Cas 1 : /start ou /START ---
+  if (textCmd === "/start" || textCmd === "/start@shepherdsignalsprobot") {
+    const welcomeMessage = `
+👋 *Bonjour et bienvenue ${name} !*  
+
+Je suis *Flock Manager*, ton assistant virtuel pour découvrir, installer, paramétrer et exploiter ton EA *Shepherd Signals Professional*.  
+
+*Shepherd Signals Professional* est un Expert Advisor avancé pour *MetaTrader 5* qui transforme ton expérience de trading grâce à l’intégration Telegram en temps réel.  
+
+📲 *Fonctionne sur MetaTrader 5*  
+🔗 *Communauté Telegram* : @ShepherdSignalsProfessional  
+📩 *Support* : lesbonnesaffaires2025@gmail.com  
+
+👇 Clique sur *Commandes disponibles* pour en savoir plus :
+    `;
+
+    await axios.post(`${TELEGRAM_API}/sendMessage`, {
+      chat_id: message.chat.id,
+      text: welcomeMessage,
+      parse_mode: "Markdown",
+      ...mainMenu,
+    });
+  }
+
+  // --- Cas 2 : /help ou /HELP ---
+  else if (textCmd === "/help" || textCmd === "/help@shepherdsignalsprobot") {
+    const helpMessage = `
+🧭 *Commandes disponibles* :
+
+• /start — Revenir à l'accueil  
+• /help — Afficher ce menu  
+• Accéder via boutons : fonctionnalités, installation, licence, achat, etc.  
+
+👇 Sélectionne une section ci-dessous pour explorer Shepherd Signals Professional :
+    `;
+    await axios.post(`${TELEGRAM_API}/sendMessage`, {
+      chat_id: message.chat.id,
+      text: helpMessage,
+      parse_mode: "Markdown",
+      ...commandesMenu,
+    });
+  }
+
+  // --- Cas 3 : commande inconnue ---
+  else if (textCmd.startsWith("/")) {
+    const unknownMessage = `
+❓ *Commande inconnue.*  
+
+Essaie plutôt /start ou /help pour naviguer dans le bot.
+    `;
+    await axios.post(`${TELEGRAM_API}/sendMessage`, {
+      chat_id: message.chat.id,
+      text: unknownMessage,
+      parse_mode: "Markdown",
+      ...mainMenu,
+    });
+  }
+}
 
     // === Gestion des boutons ===
     if (callback) {
@@ -162,9 +225,9 @@ Types :
           text = `🛒 *Achat de l'EA* :  
           
 💰 DEMO     – 0 €  
-💰 STARTER  – 15 €/mois  
-💰 PREMIUM  – 40 €/3 mois  
-💰 ULTIMATE – 120 €/an  
+💰 STARTER  – 15 € / mois  
+💰 PREMIUM  – 40 € / trimestre  
+💰 ULTIMATE – 120 € / an  
 💰 INFINITY – 197 € unique
 
 💳 *Paiements acceptés* : PayPal, Binance, MTN, Orange Money, Perfect Money, VISA.  
