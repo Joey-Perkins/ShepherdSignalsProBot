@@ -161,13 +161,13 @@ Types :
         case "achat":
           text = `🛒 *Achat de l'EA* :  
           
-| Licence | Durée | Prix | Comptes | Avantages |
-|----------|--------|-------|----------|-------------|
-| DEMO | 10 j | 0€ | 1 démo | Support basique |
-| STARTER | 30 j | 15€ | 2 comptes | Mises à jour |
-| PREMIUM | 90 j | 40€ | 4 comptes | Assistance config |
-| ULTIMATE | 365 j | 120€ | 9 comptes | Support prioritaire |
-| INFINITY | ∞ | 197€ | Illimités | Tout inclus |
+| Licence | Durée| Prix|   Démo   |   Réel   |
+|---------|------|-----|----------|----------|
+| DEMO    | 10 j | 0€  | 1 Compte |   1 Réel |
+| STARTER | 30 j | 15€ | 1 Compte |   1 Réel |
+| PREMIUM | 90 j | 40€ | 3 Compte |   3 Réel |
+| ULTIMATE| 365 j| 120€| 5 Compte |   5 Réel |
+| INFINITY|   ∞  | 197€| Illimités| Illimités|
 
 💳 *Paiements acceptés* : PayPal, Binance, MTN, Orange Money, Perfect Money, VISA.  
 
