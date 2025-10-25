@@ -160,18 +160,16 @@ Types :
 
         case "achat":
           text = `🛒 *Achat de l'EA* :  
- ___________________________________________        
-|          |       |      |                 |
-| Licence  | Durée | Prix | Nbre de Comptes | 
-|__________|_______|______|_________________|
-| DEMO     | 10 j  | 0€   | 1 démo          | 
-| STARTER  | 30 j  | 15€  | 1 réel + 1 démo | 
-| PREMIUM  | 90 j  | 40€  | 2 réels + 2 démo| 
-| ULTIMATE | 365 j | 120€ | 5 réels + 5 démo| 
-| INFINITY | ∞     | 197€ | Illimités       | 
-|__________|_______|______|_________________|
+          
+| Licence | Durée | Prix | Comptes | Avantages |
+|----------|--------|-------|----------|-------------|
+| DEMO | 10 j | 0€ | 1 démo | Support basique |
+| STARTER | 30 j | 15€ | 2 comptes | Mises à jour |
+| PREMIUM | 90 j | 40€ | 4 comptes | Assistance config |
+| ULTIMATE | 365 j | 120€ | 9 comptes | Support prioritaire |
+| INFINITY | ∞ | 197€ | Illimités | Tout inclus |
 
-💳 *Paiements acceptés* : PayPal, Binance, MTN MOMO, Orange Money, Perfect Money, VISA ...etc  
+💳 *Paiements acceptés* : PayPal, Binance, MTN, Orange Money, Perfect Money, VISA.  
 
 📩 Contact : @JoeyPerkins`;
           break;
