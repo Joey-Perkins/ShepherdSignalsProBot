@@ -161,13 +161,11 @@ Types :
         case "achat":
           text = `🛒 *Achat de l'EA* :  
           
-| Licence | Durée| Prix|   Démo   |   Réel   |
-|---------|------|-----|----------|----------|
-| DEMO    | 10 j | 0€  | 1 Compte |   1 Réel |
-| STARTER | 30 j | 15€ | 1 Compte |   1 Réel |
-| PREMIUM | 90 j | 40€ | 3 Compte |   3 Réel |
-| ULTIMATE| 365 j| 120€| 5 Compte |   5 Réel |
-| INFINITY|   ∞  | 197€| Illimités| Illimités|
+💰 DEMO     – 0 €  
+💰 STARTER  – 15 €/mois  
+💰 PREMIUM  – 40 €/3 mois  
+💰 ULTIMATE – 120 €/an  
+💰 INFINITY – 197 € unique
 
 💳 *Paiements acceptés* : PayPal, Binance, MTN, Orange Money, Perfect Money, VISA.  
 
