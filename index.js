@@ -9,9 +9,15 @@ const TELEGRAM_API = `https://api.telegram.org/bot${TOKEN}`;
 const URI = `/webhook/${TOKEN}`;
 const WEBHOOK_URL = `https://shepherdsignalsprobot.onrender.com${URI}`; // adapte si ton nom Render change
 
-// === 🎛 Menus ===
+/ ===============================
+// 🧠 Stock des états utilisateurs
+// ===============================
+const userState = {};
+const userData = {}
 
-// Bouton principal
+// ===============================
+// 🎛 Menus principaux
+// ===============================
 const mainMenu = {
   reply_markup: {
     inline_keyboard: [
@@ -20,7 +26,6 @@ const mainMenu = {
   }
 };
 
-// Boutons du sous-menu
 const commandesMenu = {
   reply_markup: {
     inline_keyboard: [
@@ -222,7 +227,7 @@ Types :
 🛡 *Sécurisé et fiable.*`;
           break;
 
-        case "achat":
+        /*case "achat":
           text = `🛒 *Achat de l'EA* :  
           
 💰 DEMO     – 0 €  
@@ -234,22 +239,41 @@ Types :
 💳 *Paiements acceptés* : PayPal, Binance, MTN, Orange Money, Perfect Money, VISA.  
 
 📩 Contact : @JoeyPerkins`;
+          break;*/
+          
+        case "achat":
+          text = "🛒 *Achat de l'EA* :\n\nAvant de continuer, indique ton **adresse email** (ex: tonmail@gmail.com)";
+          userState[chatId] = "waiting_email";
+          markup = null;
+          break;
+
+        case "lic_demo":
+        case "lic_starter":
+        case "lic_premium":
+        case "lic_ultimate":
+        case "lic_infinity":
+          const type = data.split("_")[1].toUpperCase();
+          const email = userData[chatId]?.email || "non fourni";
+          const username = callback.from.username || "anonyme";
+
+          text = `✅ *Demande enregistrée !*\n\n👤 Utilisateur : @${username}\n📧 Email : ${email}\n🔑 Type : ${type}\n\n💾 (Sauvegarde dans Google Sheet à venir)`;
+          markup = mainMenu;
           break;
 
         case "faq":
           text = `❔ *FAQ - Questions fréquentes* :  
 
 **Q:** L'EA n'envoie pas de messages ?  
-**R:** Vérifie la config WebRequest et tokens.  
+  **R:** Vérifie la config WebRequest et tokens.  
 
 **Q:** Comment obtenir mon Chat ID ?  
-**R:** Écris à @userinfobot.  
+  **R:** Écris à @userinfobot.  
 
 **Q:** Les screenshots ne fonctionnent pas ?  
-**R:** Vérifie les permissions du dossier MQL5/Files/.  
+  **R:** Vérifie les permissions du dossier MQL5/Files/.  
 
 **Q:** Utilisable sur VPS ?  
-**R:** Oui, totalement compatible.  
+  **R:** Oui, totalement compatible.  
 
 📩 *Autres questions* : lesbonnesaffaires2025@gmail.com`;
           break;
