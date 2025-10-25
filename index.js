@@ -15,7 +15,7 @@ const WEBHOOK_URL = `https://shepherdsignalsprobot.onrender.com${URI}`; // adapt
 const mainMenu = {
   reply_markup: {
     inline_keyboard: [
-      [{ text: "📜 Commandes disponibles", callback_data: "menu_commandes" }]
+      [{ text: "📜 Commandes disponibles" || "/help", callback_data: "menu_commandes" }]
     ]
   }
 };
@@ -48,7 +48,7 @@ app.post(URI, async (req, res) => {
       const name = message.from.first_name || "cher trader";
 
       const welcomeMessage = `
-👋 *Bonjour et bienvenue ${name}!*  
+👋 *Bonjour et bienvenue ${name} !*  
 
 Je suis *Flock Manager*, ton assistant virtuel pour découvrir, installer, paramétrer et exploiter ton EA *Shepherd Signals Professional*.  
 
@@ -160,16 +160,18 @@ Types :
 
         case "achat":
           text = `🛒 *Achat de l'EA* :  
+ ___________________________________________        
+|          |       |      |                 |
+| Licence  | Durée | Prix | Nbre de Comptes | 
+|__________|_______|______|_________________|
+| DEMO     | 10 j  | 0€   | 1 démo          | 
+| STARTER  | 30 j  | 15€  | 1 réel + 1 démo | 
+| PREMIUM  | 90 j  | 40€  | 2 réels + 2 démo| 
+| ULTIMATE | 365 j | 120€ | 5 réels + 5 démo| 
+| INFINITY | ∞     | 197€ | Illimités       | 
+|__________|_______|______|_________________|
 
-| Licence | Durée | Prix | Comptes | Avantages |
-|----------|--------|-------|----------|-------------|
-| DEMO | 10 j | 0€ | 1 démo | Support basique |
-| STARTER | 30 j | 15€ | 2 comptes | Mises à jour |
-| PREMIUM | 90 j | 40€ | 4 comptes | Assistance config |
-| ULTIMATE | 365 j | 120€ | 9 comptes | Support prioritaire |
-| INFINITY | ∞ | 197€ | Illimités | Tout inclus |
-
-💳 *Paiements acceptés* : PayPal, Binance, MTN, Orange Money, Perfect Money, VISA.  
+💳 *Paiements acceptés* : PayPal, Binance, MTN MOMO, Orange Money, Perfect Money, VISA ...etc  
 
 📩 Contact : @JoeyPerkins`;
           break;
@@ -200,7 +202,7 @@ Types :
 💬 *Groupe privé* : accessible via le canal  
 
 🕒 *Support du lundi au vendredi (9h-18h GMT)*  
-🌍 FR / EN  
+🌍 FR / EN / ES
 ⚙️ Assistance installation et personnalisation`;
           break;
 
@@ -210,7 +212,7 @@ Types :
 *Shepherd Signals Professional* est un EA MQL5 pour le suivi automatisé des performances avec alertes Telegram et gestion intelligente des risques.  
 
 Version : *1.0*  
-© 2025 *Joey Perkins DJOMOL JOSEPH* — Tous droits réservés.`;
+© 2025 *Joey Perkins D.J.* — Tous droits réservés.`;
           break;
 
         case "back_main":
