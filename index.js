@@ -306,13 +306,8 @@ Types :
         case "lic_infinity": {
          const type = data.split("_")[1].toUpperCase();
          const email = userData[chatId]?.email || "non fourni";
-         const name =
-    callback.from?.first_name ||
-    callback.from?.username
-      ? `@${callback.from.username}`
-      : "cher trader";
         }
-          text = `✅ *Demande enregistrée !*\n\n👤 Utilisateur : @${name}\n📧 Email : ${email}\n🔑 Type : ${type}`;//💾 (Sauvegarde dans Google Sheet à venir)`
+          text = `✅ *Demande enregistrée !*\n\n📧 Email : ${email}\n🔑 Type : ${type}`;//💾 (Sauvegarde dans Google Sheet à venir)`
           markup = mainMenu;
           break;
 
