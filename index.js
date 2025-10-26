@@ -13,7 +13,8 @@ const WEBHOOK_URL = `https://shepherdsignalsprobot.onrender.com${URI}`; // adapt
 // 🧠 Stock des états utilisateurs
 // ===============================
 const userState = {};
-const userData = {}
+const userData = {};
+const userProfile= {}; //Stocke le nom, username, etc.
 
 // ===============================
 // 🎛 Menus principaux
@@ -126,6 +127,11 @@ if (message && message.text) {
   
   // --- Cas 1 : /start ou /START ---
   if (textCmd === "/start" || textCmd === "/start@shepherdsignalsprobot") {
+  const name = message.from.first_name || "cher trader";
+  const username = message.from.username || null;
+
+  // 🧠 Sauvegarde globale
+  userProfile[message.chat.id] = { name, username };
     const welcomeMessage = `
 👋 *Bonjour et bienvenue ${name} !*  
 
@@ -288,7 +294,7 @@ Types :
           break;*/
           
         case "achat":
-          text = `🛒 *Achat de l'EA* :\n\nAvant de continuer, indique ton **adresse email** (ex: tonmail@gmail.com)`;
+          text = `🛒 *Achat de l'EA* :\n\nAvant de continuer, indique ton **adresse email** valide. Nous l'utiliserons pour te communiquer ta clé de licence.\n(ex: tonmail@gmail.com)`;
           userState[chatId] = "waiting_email";
           markup = null;
           break;
@@ -298,9 +304,9 @@ Types :
         case "lic_premium":
         case "lic_ultimate":
         case "lic_infinity": {
-          const type = data.split("_")[1].toUpperCase();
-          const email = userData[chatId]?.email || "non fourni";
-          const username = callback.from?.username || "anonyme";
+         const profile = userProfile[chatId] || {};
+         const name = profile.name || "trader";
+         const username = profile.username ? `@${profile.username}` : name;
         }
           text = `✅ *Demande enregistrée !*\n\n👤 Utilisateur : @${username}\n📧 Email : ${email}\n🔑 Type : ${type}`;//💾 (Sauvegarde dans Google Sheet à venir)`
           markup = mainMenu;
