@@ -78,6 +78,52 @@ if (message && message.text) {
   const textCmd = message.text.trim().toLowerCase();
   const name = message.from.first_name || "cher trader";
 
+    // --- Étape spéciale : réception d'un email ---
+  const chatId = message.chat.id;
+
+  if (userState[chatId] === "waiting_email") {
+    const email = message.text.trim();
+
+    // Validation rapide du format email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      await axios.post(`${TELEGRAM_API}/sendMessage`, {
+        chat_id: chatId,
+        text: "❌ *Adresse email invalide.*\n\nMerci de réessayer avec un format valide (ex: tonmail@gmail.com).",
+        parse_mode: "Markdown"
+      });
+      return res.sendStatus(200);
+    }
+
+    // Sauvegarde de l'email
+    userData[chatId] = { email };
+    userState[chatId] = null; // On réinitialise l’état
+
+    // Envoie des options d’achat
+    const licencesMenu = {
+      reply_markup: {
+        inline_keyboard: [
+          [{ text: "🎁 DEMO", callback_data: "lic_demo" }],
+          [{ text: "🚀 STARTER", callback_data: "lic_starter" }],
+          [{ text: "💎 PREMIUM", callback_data: "lic_premium" }],
+          [{ text: "⚡ ULTIMATE", callback_data: "lic_ultimate" }],
+          [{ text: "♾️ INFINITY", callback_data: "lic_infinity" }],
+          [{ text: "⬅️ Retour", callback_data: "menu_commandes" }]
+        ]
+      }
+    };
+
+    await axios.post(`${TELEGRAM_API}/sendMessage`, {
+      chat_id: chatId,
+      text: `✅ *Email enregistré avec succès !*\n\nMaintenant, choisis ton type de licence 👇`,
+      parse_mode: "Markdown",
+      ...licencesMenu
+    });
+
+    return res.sendStatus(200);
+  }
+
+  
   // --- Cas 1 : /start ou /START ---
   if (textCmd === "/start" || textCmd === "/start@shepherdsignalsprobot") {
     const welcomeMessage = `
