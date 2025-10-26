@@ -308,7 +308,7 @@ Types :
          const name = profile.name || "trader";
          const username = profile.username ? `@${profile.username}` : name;
         }
-          text = `✅ *Demande enregistrée !*\n\n👤 Utilisateur : @${username}\n📧 Email : ${email}\n🔑 Type : ${type}`;//💾 (Sauvegarde dans Google Sheet à venir)`
+          text = `✅ *Demande enregistrée !*\n\n👤 Utilisateur : @${name}\n📧 Email : ${email}\n🔑 Type : ${type}`;//💾 (Sauvegarde dans Google Sheet à venir)`
           markup = mainMenu;
           break;
 
