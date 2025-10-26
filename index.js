@@ -306,7 +306,7 @@ Types :
         case "lic_infinity": {
          const profile = userProfile[chatId] || {};
          const name = profile.name || "trader";
-         const username = profile.username ? `@${profile.username}` : name;
+         //const username = profile.username ? `@${profile.username}` : name;
         }
           text = `✅ *Demande enregistrée !*\n\n👤 Utilisateur : @${name}\n📧 Email : ${email}\n🔑 Type : ${type}`;//💾 (Sauvegarde dans Google Sheet à venir)`
           markup = mainMenu;
