@@ -251,11 +251,11 @@ Types :
         case "lic_starter":
         case "lic_premium":
         case "lic_ultimate":
-        case "lic_infinity":
+        case "lic_infinity": {
           const type = data.split("_")[1].toUpperCase();
           const email = userData[chatId]?.email || "non fourni";
           const username = callback.from?.username || "anonyme";
-
+        }
           text = `✅ *Demande enregistrée !*\n\n👤 Utilisateur : @${username}\n📧 Email : ${email}\n🔑 Type : ${type}`;//💾 (Sauvegarde dans Google Sheet à venir)`
           markup = mainMenu;
           break;
