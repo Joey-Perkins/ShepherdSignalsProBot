@@ -296,28 +296,28 @@ Types :
 
         case "lic_starter":
           userData[chatId].licence = "STARTER";
-          text = `🚀 *Licence STARTER sélectionnée !*\n\nEmail: ${userData[chatId].email}\nLicence: STARTER\n\nNous te contacterons très rapidement !`;
+          text = `🚀 *Licence STARTER sélectionnée !*\n\nNom: ${userData[chatId].prenom} ${userData[chatId].nom}\nPseudo: ${userData[chatId].pseudo}\nEmail: ${userData[chatId].email}\nLicence: STARTER\n\nNous te contacterons très rapidement !`;
           markup = mainMenu;
           await saveUserData(userData[chatId]); // 🆕 SAUVEGARDE
           break;
 
         case "lic_premium":
           userData[chatId].licence = "PREMIUM";
-          text = `💎 *Licence PREMIUM sélectionnée !*\n\nEmail: ${userData[chatId].email}\nLicence: PREMIUM\n\nNous te contacterons très rapidement !`;
+          text = `💎 *Licence PREMIUM sélectionnée !*\n\nNom: ${userData[chatId].prenom} ${userData[chatId].nom}\nPseudo: ${userData[chatId].pseudo}\nEmail: ${userData[chatId].email}\nLicence: PREMIUM\n\nNous te contacterons très rapidement !`;
           markup = mainMenu;
           await saveUserData(userData[chatId]); // 🆕 SAUVEGARDE
           break;
 
         case "lic_ultimate":
           userData[chatId].licence = "ULTIMATE";
-          text = `⚡ *Licence ULTIMATE sélectionnée !*\n\nEmail: ${userData[chatId].email}\nLicence: ULTIMATE\n\nNous te contacterons très rapidement !`;
+          text = `⚡ *Licence ULTIMATE sélectionnée !*\n\nNom: ${userData[chatId].prenom} ${userData[chatId].nom}\nPseudo: ${userData[chatId].pseudo}\nEmail: ${userData[chatId].email}\nLicence: ULTIMATE\n\nNous te contacterons très rapidement !`;
           markup = mainMenu;
           await saveUserData(userData[chatId]); // 🆕 SAUVEGARDE
           break;
 
         case "lic_infinity":
           userData[chatId].licence = "INFINITY";
-          text = `♾️ *Licence INFINITY sélectionnée !*\n\nEmail: ${userData[chatId].email}\nLicence: INFINITY\n\nNous te contacterons très rapidement !`;
+          text = `♾️ *Licence INFINITY sélectionnée !*\n\nNom: ${userData[chatId].prenom} ${userData[chatId].nom}\nPseudo: ${userData[chatId].pseudo}\nEmail: ${userData[chatId].email}\nLicence: INFINITY\n\nNous te contacterons très rapidement !`;
           markup = mainMenu;
           await saveUserData(userData[chatId]); // 🆕 SAUVEGARDE
           break;
