@@ -303,10 +303,8 @@ Types :
         case "lic_starter":
         case "lic_premium":
         case "lic_ultimate":
-        case "lic_infinity": {
-         const type = data.split("_")[1].toUpperCase();
-        }
-          text = `✅ *Demande enregistrée !*\n\n🔑 Type : ${type}`;//💾 (Sauvegarde dans Google Sheet à venir)`
+        case "lic_infinity": 
+         
           markup = mainMenu;
           break;
 
