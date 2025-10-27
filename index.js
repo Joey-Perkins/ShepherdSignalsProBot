@@ -84,8 +84,9 @@ app.post(URI, async (req, res) => {
         // 🆕 Sauvegarde de l'email ET du nom
         userData[chatId] = {
           email: email,
-          name: message.from.first_name || "Non spécifié",
-          username: message.from.username || "Non spécifié",
+          prenom: message.from.first_name || " ",
+          nom: message.from.last_name || " ",
+          pseudo: message.from.username || " ",
           licence: null // Sera rempli plus tard
         };
         
@@ -116,21 +117,23 @@ app.post(URI, async (req, res) => {
 
       // --- /start ---
       if (textCmd === "/start" || textCmd === "/start@shepherdsignalsprobot") {
-        const name = message.from.first_name || "cher trader";
-        const username = message.from.username || null;
+        const prenom = message.from.first_name || "cher(e) trader";
+         const nom = message.from.last_name || " ";
+        const pseudo = message.from.username || null;
 
         // 🆕 Initialisation des données utilisateur
         if (!userData[chatId]) {
           userData[chatId] = {
-            name: name,
-            username: username,
+            prenom: prenom,
+            nom: nom,
+            pseudo: pseudo,
             email: null,
             licence: null
           };
         }
 
         const welcomeMessage = `
-👋 *Bonjour et bienvenue ${name} !*  
+👋 *Bonjour et bienvenue ${prenom} ${nom}!*  
 
 Je suis *Flock Manager*, ton assistant virtuel pour découvrir, installer, paramétrer et exploiter ton EA *Shepherd Signals Professional*.  
 
@@ -286,7 +289,7 @@ Types :
         // �NOUVEAU : Gestion des sélections de licence avec sauvegarde
         case "lic_demo":
           userData[chatId].licence = "DEMO";
-          text = `🎁 *Licence DEMO sélectionnée !*\n\nPrenom: ${userData[chatId].name}\nNom: ${userData[chatId].username}\nEmail: ${userData[chatId].email}\nLicence: DEMO\n\nNous te contacterons très rapidement !`;
+          text = `🎁 *Licence DEMO sélectionnée !*\n\nNom: ${userData[chatId].prenom} ${userData[chatId].nom}\nPseudo: ${userData[chatId].pseudo}\nEmail: ${userData[chatId].email}\nLicence: DEMO\n\nNous te contacterons très rapidement !`;
           markup = mainMenu;
           await saveUserData(userData[chatId]); // 🆕 SAUVEGARDE
           break;
