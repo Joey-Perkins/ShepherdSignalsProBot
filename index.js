@@ -61,7 +61,11 @@ async function saveUserData(userData) {
     if (response.data.ok) {
       console.log("✅ Données sauvegardées dans Google Sheets, ligne:", response.data.row);
       console.log("🔑 Clé de licence générée:", response.data.LicensesKey);
-      return response.data.LicensesKey;
+      console.log("📅 Date de début:", response.data.StartDate);
+      return {
+        LicensesKey: response.data.LicensesKey,
+        StartDate: response.data.StartDate
+      };
     } else {
       console.error("❌ Erreur Google Sheets:", response.data.error);
       return null;
@@ -302,76 +306,74 @@ Types :
           break;
 
         // �NOUVEAU : Gestion des sélections de licence avec sauvegarde
-        case "lic_demo":
+        case "lic_demo": {
           userData[chatId].licence = "DEMO";
-          const LicensesKeyDemo = await saveUserData(userData[chatId]);
+          const result = await saveUserData(userData[chatId]);
           
-         if (LicensesKeyDemo) {
-            text = `🎁 *Licence DEMO sélectionnée !*\n\n✅ *Vos informations :*\n• Nom: ${userData[chatId].prenom} ${userData[chatId].nom}\n• Email: ${userData[chatId].email}\n• Licence: DEMO\n• Clé: ${LicensesKeyDemo}\n\n📧 Nous vous contacterons rapidement pour l'activation !`;
+          if (result) {
+            text = `🎁 *Licence DEMO sélectionnée !*\n\n✅ *Vos informations :*\n• Nom: ${userData[chatId].prenom} ${userData[chatId].nom}\n• Email: ${userData[chatId].email}\n• Licence: DEMO\n• Clé: ${result.LicensesKey}\n• Début: ${result.StartDate}\n\n📧 Nous vous contacterons rapidement pour l'activation !`;
           } else {
             text = `🎁 *Licence DEMO sélectionnée !*\n\n✅ *Vos informations :*\n• Nom: ${userData[chatId].prenom} ${userData[chatId].nom}\n• Email: ${userData[chatId].email}\n• Licence: DEMO\n\n⚠️ Système temporairement indisponible. Nous vous contacterons rapidement !`;
           }
-          
           markup = mainMenu;
-          //await saveUserData(userData[chatId]); // 🆕 SAUVEGARDE
           break;
+        }
 
-        case "lic_starter":
+        case "lic_starter":{
           userData[chatId].licence = "STARTER";
-          const LicensesKeySTARTER = await saveUserData(userData[chatId]);
+          const result = await saveUserData(userData[chatId]);
           
-          if (LicensesKeySTARTER) {
-            text = `🎁 *Licence STARTER sélectionnée !*\n\n✅ *Vos informations :*\n• Nom: ${userData[chatId].prenom} ${userData[chatId].nom}\n• Email: ${userData[chatId].email}\n• Licence: DEMO\n• Clé: ${LicensesKeySTARTER}\n\n📧 Nous vous contacterons rapidement pour l'activation !`;
+          if (result) {
+            text = `🎁 *Licence STARTER sélectionnée !*\n\n✅ *Vos informations :*\n• Nom: ${userData[chatId].prenom} ${userData[chatId].nom}\n• Email: ${userData[chatId].email}\n• Licence: DEMO\n• Clé: ${result.LicensesKey}\n• Début: ${result.StartDate}\n\n📧 Nous vous contacterons rapidement pour l'activation !`;
           } else {
             text = `🎁 *Licence STARTER sélectionnée !*\n\n✅ *Vos informations :*\n• Nom: ${userData[chatId].prenom} ${userData[chatId].nom}\n• Email: ${userData[chatId].email}\n• Licence: DEMO\n\n⚠️ Système temporairement indisponible. Nous vous contacterons rapidement !`;
           }
          
           markup = mainMenu;
-          //await saveUserData(userData[chatId]); // 🆕 SAUVEGARDE
           break;
-
-        case "lic_premium":
-          userData[chatId].licence = "PREMIUM";
-          const LicensesKey = await saveUserData(userData[chatId]);
+        }
           
-           if (LicensesKey) {
-            text = `🎁 *Licence PREMIUM sélectionnée !*\n\n✅ *Vos informations :*\n• Nom: ${userData[chatId].prenom} ${userData[chatId].nom}\n• Email: ${userData[chatId].email}\n• Licence: PREMIUM\n• Clé: ${LicensesKey}\n\n📧 Nous vous contacterons rapidement pour l'activation !`;
+        case "lic_premium":{
+          userData[chatId].licence = "PREMIUM";
+          const result = await saveUserData(userData[chatId]);
+          
+           if (result) {
+            text = `🎁 *Licence PREMIUM sélectionnée !*\n\n✅ *Vos informations :*\n• Nom: ${userData[chatId].prenom} ${userData[chatId].nom}\n• Email: ${userData[chatId].email}\n• Licence: PREMIUM\n• Clé: ${result.LicensesKey}\n• Début: ${result.StartDate}\n\n📧 Nous vous contacterons rapidement pour l'activation !`;
           } else {
             text = `🎁 *Licence PREMIUM sélectionnée !*\n\n✅ *Vos informations :*\n• Nom: ${userData[chatId].prenom} ${userData[chatId].nom}\n• Email: ${userData[chatId].email}\n• Licence: PREMIUM\n\n⚠️ Système temporairement indisponible. Nous vous contacterons rapidement !`;
           }
           
           markup = mainMenu;
-          //await saveUserData(userData[chatId]); // 🆕 SAUVEGARDE
           break;
+        }
 
-        case "lic_ultimate":
+        case "lic_ultimate":{
           userData[chatId].licence = "ULTIMATE";
-          const LicensesKeyULTIMATE = await saveUserData(userData[chatId]);
+          const result = await saveUserData(userData[chatId]);
 
-          if (LicensesKeyULTIMATE) {
-            text = `🎁 *Licence ULTIMATE sélectionnée !*\n\n✅ *Vos informations :*\n• Nom: ${userData[chatId].prenom} ${userData[chatId].nom}\n• Email: ${userData[chatId].email}\n• Licence: ULTIMATE\n• Clé: ${LicensesKeyULTIMATE}\n\n📧 Nous vous contacterons rapidement pour l'activation !`;
+          if (result) {
+            text = `🎁 *Licence ULTIMATE sélectionnée !*\n\n✅ *Vos informations :*\n• Nom: ${userData[chatId].prenom} ${userData[chatId].nom}\n• Email: ${userData[chatId].email}\n• Licence: ULTIMATE\n• Clé: ${result.LicensesKey}\n• Début: ${result.StartDate}\n\n📧 Nous vous contacterons rapidement pour l'activation !`;
           } else {
             text = `🎁 *Licence ULTIMATE sélectionnée !*\n\n✅ *Vos informations :*\n• Nom: ${userData[chatId].prenom} ${userData[chatId].nom}\n• Email: ${userData[chatId].email}\n• Licence: ULTIMATE\n\n⚠️ Système temporairement indisponible. Nous vous contacterons rapidement !`;
           }
          
           markup = mainMenu;
-          //await saveUserData(userData[chatId]); // 🆕 SAUVEGARDE
           break;
+      }
 
-        case "lic_infinity":
+        case "lic_infinity":{
           userData[chatId].licence = "INFINITY";
-          const LicensesKeyINFINITY = await saveUserData(userData[chatId]);
+          const result = await saveUserData(userData[chatId]);
           
-          if (LicensesKeyINFINITY) {
-            text = `🎁 *Licence INFINITY sélectionnée !*\n\n✅ *Vos informations :*\n• Nom: ${userData[chatId].prenom} ${userData[chatId].nom}\n• Email: ${userData[chatId].email}\n• Licence: INFINITY\n• Clé: ${LicensesKeyINFINITY}\n\n📧 Nous vous contacterons rapidement pour l'activation !`;
+          if (result) {
+            text = `🎁 *Licence INFINITY sélectionnée !*\n\n✅ *Vos informations :*\n• Nom: ${userData[chatId].prenom} ${userData[chatId].nom}\n• Email: ${userData[chatId].email}\n• Licence: INFINITY\n• Clé: ${result.LicensesKey}\n• Début: ${result.StartDate}\n\n📧 Nous vous contacterons rapidement pour l'activation !`;
           } else {
             text = `🎁 *Licence INFINITY sélectionnée !*\n\n✅ *Vos informations :*\n• Nom: ${userData[chatId].prenom} ${userData[chatId].nom}\n• Email: ${userData[chatId].email}\n• Licence: INFINITY\n\n⚠️ Système temporairement indisponible. Nous vous contacterons rapidement !`;
           }
           
           markup = mainMenu;
-          //await saveUserData(userData[chatId]); // 🆕 SAUVEGARDE
           break;
-
+        }
         // ... (le reste de vos cases reste identique)
         case "faq":
           text = `❔ *FAQ - Questions fréquentes* :  
