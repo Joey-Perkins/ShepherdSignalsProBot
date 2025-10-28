@@ -119,7 +119,7 @@ app.post(URI, async (req, res) => {
               [{ text: "💎 PREMIUM", callback_data: "lic_premium" }],
               [{ text: "⚡ ULTIMATE", callback_data: "lic_ultimate" }],
               [{ text: "♾️ INFINITY", callback_data: "lic_infinity" }],
-              [{ text: "⬅️ Retour", callback_data: "back_to_achat_menu" }] // 🆕 Même bouton retour
+              [{ text: "⬅️ Retour", callback_data: "menu_commandes" }] // 🆕 Même bouton retour
             ]
           }
         };
@@ -306,7 +306,7 @@ Types :
           markup = {
           reply_markup: {
             inline_keyboard: [
-              [{ text: "⬅️ Retour", callback_data: "back_to_achat_menu" }]
+              [{ text: "⬅️ Retour", callback_data: "menu_commandes" }]
             ]
           }
         };
