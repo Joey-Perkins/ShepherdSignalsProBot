@@ -119,7 +119,7 @@ app.post(URI, async (req, res) => {
               [{ text: "💎 PREMIUM", callback_data: "lic_premium" }],
               [{ text: "⚡ ULTIMATE", callback_data: "lic_ultimate" }],
               [{ text: "♾️ INFINITY", callback_data: "lic_infinity" }],
-              [{ text: "⬅️ Retour", callback_data: "menu_commandes" }]
+              [{ text: "⬅️ Retour", callback_data: "back_to_achat_menu" }] // 🆕 Même bouton retour
             ]
           }
         };
@@ -302,7 +302,33 @@ Types :
         case "achat":
           text = `🛒 *Achat de l'EA* :\n\nAvant de continuer, indique ton **adresse email** valide. Nous l'utiliserons pour te communiquer ta clé de licence.\n(ex: tonmail@gmail.com)`;
           userState[chatId] = "waiting_email";
-          markup = null;
+
+          markup = {
+          reply_markup: {
+            inline_keyboard: [
+              [{ text: "⬅️ Retour", callback_data: "back_to_achat_menu" }]
+            ]
+          }
+        };
+        break;
+
+          // 🆕 NOUVEAU CASE POUR LE RETOUR
+        case "back_to_achat_menu":
+          userState[chatId] = null; // Important : réinitialise l'état
+          text = "🛒 *Achat de l'EA* :\n\nRetour au menu d'achat. Choisis ton type de licence 👇";
+          
+          markup = {
+            reply_markup: {
+              inline_keyboard: [
+                [{ text: "🎁 DEMO", callback_data: "lic_demo" }],
+                [{ text: "🚀 STARTER", callback_data: "lic_starter" }],
+                [{ text: "💎 PREMIUM", callback_data: "lic_premium" }],
+                [{ text: "⚡ ULTIMATE", callback_data: "lic_ultimate" }],
+                [{ text: "♾️ INFINITY", callback_data: "lic_infinity" }],
+                [{ text: "⬅️ Retour", callback_data: "menu_commandes" }]
+              ]
+            }
+          };
           break;
 
         // �NOUVEAU : Gestion des sélections de licence avec sauvegarde
