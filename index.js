@@ -1,6 +1,17 @@
 import express from "express";
 import axios from "axios";
 
+// =============================================
+// ⚙️ Mode TEST / PROD automatique
+// =============================================
+const MODE = process.env.MODE || "test"; // "test" ou "prod"
+const PAYMENT_TOKEN =
+  MODE === "prod"
+    ? process.env.PAYMENT_TOKEN_PROD
+    : process.env.PAYMENT_TOKEN_TEST;
+
+console.log(`💳 Mode de paiement actif : ${MODE.toUpperCase()}`);
+
 const app = express();
 app.use(express.json());
 
@@ -25,7 +36,8 @@ async function sendInvoice(chatId, title, description, payload, currency, prices
     title,
     description,
     payload,
-    provider_token: process.env.PAYMENT_TOKEN || "TEST_PROVIDER_TOKEN",
+    //provider_token: process.env.PAYMENT_TOKEN || "TEST_PROVIDER_TOKEN",
+    provider_token: PAYMENT_TOKEN,
     currency,
     prices,
     start_parameter: "purchase-ea",
