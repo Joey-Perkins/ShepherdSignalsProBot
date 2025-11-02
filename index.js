@@ -25,7 +25,7 @@ async function sendInvoice(chatId, title, description, payload, currency, prices
     title,
     description,
     payload,
-    provider_token: process.env.PAYMENT_TOKEN,
+    provider_token: process.env.PAYMENT_TOKEN || "TEST_PROVIDER_TOKEN",
     currency,
     prices,
     start_parameter: "purchase-ea",
@@ -228,17 +228,18 @@ Essaie plutôt /start ou /help pour naviguer dans le bot.
       }
     }
     
- if (message.successful_payment) {
-  const payment = message.successful_payment;
-  const chatId = message.chat.id;
-
-  await axios.post(`${TELEGRAM_API}/sendMessage`, {
-    chat_id: chatId,
-    text: `✅ *Paiement reçu avec succès !*\n\nMontant: ${payment.total_amount / 100} ${payment.currency}\nMerci pour votre achat 🎉`,
-    parse_mode: "Markdown"
-  });
-}
-
+   if (message && message.successful_payment) {
+    const chatId = message.chat.id;
+    const payment = message.successful_payment;
+  
+    console.log("✅ Paiement reçu :", payment);
+  
+    await axios.post(`${TELEGRAM_API}/sendMessage`, {
+      chat_id: chatId,
+      text: `✅ *Paiement reçu avec succès !*\n\nMontant : ${payment.total_amount / 100} ${payment.currency}\nID de la transaction : ${payment.telegram_payment_charge_id}\n\nMerci pour votre achat 🎉`,
+      parse_mode: "Markdown"
+    });
+  }
 
     // === Gestion des boutons ===
     if (callback) {
@@ -395,7 +396,7 @@ Types :
             "Licence STARTER valable 30 jours pour Shepherd Signals Professional.",
             "lic_starter_payment",
             "EUR",
-            [{ label: "Licence STARTER", amount: 1700 }] // 17.00 EUR = 1700 cents
+            [{ label: "Licence STARTER", amount: 1700 * 100 }] // 17.00 EUR = 1700 cents
           );
           
           text = `🧾 *Paiement en cours...*\n\nMerci d'attendre la fenêtre de paiement Telegram.`;
@@ -419,7 +420,7 @@ Types :
             "Licence PREMIUM valable 90 jours pour Shepherd Signals Professional.",
             "lic_premium_payment",
             "EUR",
-            [{ label: "Licence PREMIUM", amount: 4000 }] // 40.00 EUR = 4000 cents
+            [{ label: "Licence PREMIUM", amount: 4000 * 100 }] // 40.00 EUR = 4000 cents
           );
           
           text = `🧾 *Paiement en cours...*\n\nMerci d'attendre la fenêtre de paiement Telegram.`;
@@ -443,7 +444,7 @@ Types :
             "Licence ULTIMATE valable 365 jours pour Shepherd Signals Professional.",
             "lic_ultimate_payment",
             "EUR",
-            [{ label: "Licence ULTIMATE", amount: 13500 }] // 135.00 EUR = 13500 cents
+            [{ label: "Licence ULTIMATE", amount: 13500 * 100 }] // 135.00 EUR = 13500 cents
           );
           
           text = `🧾 *Paiement en cours...*\n\nMerci d'attendre la fenêtre de paiement Telegram.`;
@@ -467,7 +468,7 @@ Types :
             "Licence INFINITY valable à vie pour Shepherd Signals Professional.",
             "lic_infinity_payment",
             "EUR",
-            [{ label: "Licence INFINITY", amount: 19900 }] // 199.00 EUR = 19900 cents
+            [{ label: "Licence INFINITY", amount: 19900 * 100 }] // 199.00 EUR = 19900 cents
           );
           
           text = `🧾 *Paiement en cours...*\n\nMerci d'attendre la fenêtre de paiement Telegram.`;
