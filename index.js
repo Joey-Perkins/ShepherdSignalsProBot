@@ -100,6 +100,26 @@ async function saveUserData(userData) {
 
 //-------------------------------------------------------
 app.post(URI, async (req, res) => {
+  // === Gestion du pré-checkout (validation avant paiement) ===
+  if (req.body.pre_checkout_query) {
+    const query = req.body.pre_checkout_query;
+    console.log("💳 Pré-checkout reçu :", query);
+  
+    try {
+      // ✅ Telegram exige cette réponse en moins de 10 secondes
+      await axios.post(`${TELEGRAM_API}/answerPreCheckoutQuery`, {
+        pre_checkout_query_id: query.id,
+        ok: true,
+      });
+      console.log("✅ Pré-checkout confirmé à Telegram.");
+    } catch (error) {
+      console.error("❌ Erreur lors du pré-checkout :", error.message);
+    }
+  
+    // Important : renvoyer 200 pour que Telegram ne relance pas la requête
+    return res.sendStatus(200);
+  }
+
   const message = req.body.message;
   const callback = req.body.callback_query;
 
@@ -152,7 +172,6 @@ app.post(URI, async (req, res) => {
           parse_mode: "Markdown",
           ...licencesMenu
         });
-
         return res.sendStatus(200);
       }
 
@@ -193,6 +212,7 @@ Je suis *Flock Manager*, ton assistant virtuel pour découvrir, installer, param
           parse_mode: "Markdown",
           ...mainMenu,
         });
+        return res.sendStatus(200);
       }
 
       // --- /help ---
@@ -210,6 +230,7 @@ Je suis *Flock Manager*, ton assistant virtuel pour découvrir, installer, param
           parse_mode: "Markdown",
           ...commandesMenu,
         });
+      return res.sendStatus(200);
       }
 
       // --- Commande inconnue ---
@@ -225,6 +246,7 @@ Essaie plutôt /start ou /help pour naviguer dans le bot.
           parse_mode: "Markdown",
           ...mainMenu,
         });
+      return res.sendStatus(200);  
       }
     }
     
@@ -239,6 +261,7 @@ Essaie plutôt /start ou /help pour naviguer dans le bot.
       text: `✅ *Paiement reçu avec succès !*\n\nMontant : ${payment.total_amount / 100} ${payment.currency}\nID de la transaction : ${payment.telegram_payment_charge_id}\n\nMerci pour votre achat 🎉`,
       parse_mode: "Markdown"
     });
+  return res.sendStatus(200); 
   }
 
     // === Gestion des boutons ===
@@ -521,7 +544,12 @@ Version : *1.0*
           markup = mainMenu;
           break;
       }
-
+      // ✅ Répond immédiatement à Telegram pour éviter le "spinner" bloqué
+      await axios.post(`${TELEGRAM_API}/answerCallbackQuery`, {
+        callback_query_id: callback.id,
+        text: "⏳ Traitement en cours...",
+        show_alert: false
+      });
       await axios.post(`${TELEGRAM_API}/editMessageText`, {
         chat_id: chatId,
         message_id: callback.message.message_id,
@@ -529,8 +557,8 @@ Version : *1.0*
         parse_mode: "Markdown",
         ...markup,
       });
+    return res.sendStatus(200);
     }
-
     res.sendStatus(200);
   } catch (err) {
     console.error("Erreur :", err.message);
