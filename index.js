@@ -419,7 +419,7 @@ Types :
             "Licence STARTER valable 30 jours pour Shepherd Signals Professional.",
             "lic_starter_payment",
             "EUR",
-            [{ label: "Licence STARTER", amount: 1700 * 100 }] // 17.00 EUR = 1700 cents
+            [{ label: "Licence STARTER", amount: 1700 }] // 17.00 EUR = 1700 cents
           );
           
           text = `🧾 *Paiement en cours...*\n\nMerci d'attendre la fenêtre de paiement Telegram.`;
@@ -443,7 +443,7 @@ Types :
             "Licence PREMIUM valable 90 jours pour Shepherd Signals Professional.",
             "lic_premium_payment",
             "EUR",
-            [{ label: "Licence PREMIUM", amount: 4000 * 100 }] // 40.00 EUR = 4000 cents
+            [{ label: "Licence PREMIUM", amount: 4000 }] // 40.00 EUR = 4000 cents
           );
           
           text = `🧾 *Paiement en cours...*\n\nMerci d'attendre la fenêtre de paiement Telegram.`;
@@ -467,7 +467,7 @@ Types :
             "Licence ULTIMATE valable 365 jours pour Shepherd Signals Professional.",
             "lic_ultimate_payment",
             "EUR",
-            [{ label: "Licence ULTIMATE", amount: 13500 * 100 }] // 135.00 EUR = 13500 cents
+            [{ label: "Licence ULTIMATE", amount: 13500 }] // 135.00 EUR = 13500 cents
           );
           
           text = `🧾 *Paiement en cours...*\n\nMerci d'attendre la fenêtre de paiement Telegram.`;
@@ -491,7 +491,7 @@ Types :
             "Licence INFINITY valable à vie pour Shepherd Signals Professional.",
             "lic_infinity_payment",
             "EUR",
-            [{ label: "Licence INFINITY", amount: 19900 * 100 }] // 199.00 EUR = 19900 cents
+            [{ label: "Licence INFINITY", amount: 19900 }] // 199.00 EUR = 19900 cents
           );
           
           text = `🧾 *Paiement en cours...*\n\nMerci d'attendre la fenêtre de paiement Telegram.`;
