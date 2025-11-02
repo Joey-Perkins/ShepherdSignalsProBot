@@ -16,6 +16,28 @@ const userState = {};
 const userData = {}; // 🆕 Stocke TOUTES les données utilisateur (nom, email, licence)
 
 // ===============================
+// 🧠 Paiement via Telegram
+// ===============================
+async function sendInvoice(chatId, title, description, payload, currency, prices) {
+  const url = `${TELEGRAM_API}/sendInvoice`;
+  const invoiceData = {
+    chat_id: chatId,
+    title,
+    description,
+    payload,
+    provider_token: process.env.PAYMENT_TOKEN,
+    currency,
+    prices,
+    start_parameter: "purchase-ea",
+    photo_url: "https://i.ibb.co/6vxM8cB/shepherd-logo.png",
+    photo_width: 512,
+    photo_height: 512,
+    need_email: true,
+  };
+  await axios.post(url, invoiceData);
+}
+
+// ===============================
 // 🎛 Menus principaux
 // ===============================
 const mainMenu = {
@@ -205,6 +227,18 @@ Essaie plutôt /start ou /help pour naviguer dans le bot.
         });
       }
     }
+    
+ if (message.successful_payment) {
+  const payment = message.successful_payment;
+  const chatId = message.chat.id;
+
+  await axios.post(`${TELEGRAM_API}/sendMessage`, {
+    chat_id: chatId,
+    text: `✅ *Paiement reçu avec succès !*\n\nMontant: ${payment.total_amount / 100} ${payment.currency}\nMerci pour votre achat 🎉`,
+    parse_mode: "Markdown"
+  });
+}
+
 
     // === Gestion des boutons ===
     if (callback) {
@@ -347,56 +381,96 @@ Types :
 
         case "lic_starter":{
           userData[chatId].licence = "STARTER";
-          const result = await saveUserData(userData[chatId]);
-          
+          /*const result = await saveUserData(userData[chatId]);
           if (result) {
             text = `🎁 *Licence STARTER sélectionnée !*\n\n✅ *Vos informations :*\n• Nom: ${userData[chatId].prenom} ${userData[chatId].nom}\n• Email: ${userData[chatId].email}\n• Licence: DEMO\n• Clé: ${result.LicenseKey}\n• Début: ${result.StartDate}\n\n📧 Nous vous contacterons rapidement pour l'activation !`;
           } else {
             text = `🎁 *Licence STARTER sélectionnée !*\n\n✅ *Vos informations :*\n• Nom: ${userData[chatId].prenom} ${userData[chatId].nom}\n• Email: ${userData[chatId].email}\n• Licence: DEMO\n\n⚠️ Système temporairement indisponible. Nous vous contacterons rapidement !`;
-          }
-         
+          }*/
+          
+          // 💳 Envoie une facture Telegram
+          await sendInvoice(
+            chatId,
+            "Licence ShepherdSignalsProfessional_STARTER",
+            "Licence STARTER valable 30 jours pour Shepherd Signals Professional.",
+            "lic_starter_payment",
+            "EUR",
+            [{ label: "Licence STARTER", amount: 1700 }] // 17.00 EUR = 1700 cents
+          );
+          
+          text = `🧾 *Paiement en cours...*\n\nMerci d'attendre la fenêtre de paiement Telegram.`;
           markup = mainMenu;
           break;
         }
           
         case "lic_premium":{ 
           userData[chatId].licence = "PREMIUM";
-          const result = await saveUserData(userData[chatId]);
-          
+         /* const result = await saveUserData(userData[chatId]);
            if (result) {
             text = `🎁 *Licence PREMIUM sélectionnée !*\n\n✅ *Vos informations :*\n• Nom: ${userData[chatId].prenom} ${userData[chatId].nom}\n• Email: ${userData[chatId].email}\n• Licence: PREMIUM\n• Clé: ${result.LicenseKey}\n• Début: ${result.StartDate}\n\n📧 Nous vous contacterons rapidement pour l'activation !`;
           } else {
             text = `🎁 *Licence PREMIUM sélectionnée !*\n\n✅ *Vos informations :*\n• Nom: ${userData[chatId].prenom} ${userData[chatId].nom}\n• Email: ${userData[chatId].email}\n• Licence: PREMIUM\n\n⚠️ Système temporairement indisponible. Nous vous contacterons rapidement !`;
-          }
+          }*/
+
+          // 💳 Envoie une facture Telegram
+          await sendInvoice(
+            chatId,
+            "Licence ShepherdSignalsProfessional_PREMIUM",
+            "Licence PREMIUM valable 90 jours pour Shepherd Signals Professional.",
+            "lic_premium_payment",
+            "EUR",
+            [{ label: "Licence PREMIUM", amount: 4000 }] // 40.00 EUR = 4000 cents
+          );
           
+          text = `🧾 *Paiement en cours...*\n\nMerci d'attendre la fenêtre de paiement Telegram.`;
           markup = mainMenu;
           break;
         }
 
         case "lic_ultimate":{
           userData[chatId].licence = "ULTIMATE";
-          const result = await saveUserData(userData[chatId]);
-
+          /*const result = await saveUserData(userData[chatId]);
           if (result) {
             text = `🎁 *Licence ULTIMATE sélectionnée !*\n\n✅ *Vos informations :*\n• Nom: ${userData[chatId].prenom} ${userData[chatId].nom}\n• Email: ${userData[chatId].email}\n• Licence: ULTIMATE\n• Clé: ${result.LicenseKey}\n• Début: ${result.StartDate}\n\n📧 Nous vous contacterons rapidement pour l'activation !`;
           } else {
             text = `🎁 *Licence ULTIMATE sélectionnée !*\n\n✅ *Vos informations :*\n• Nom: ${userData[chatId].prenom} ${userData[chatId].nom}\n• Email: ${userData[chatId].email}\n• Licence: ULTIMATE\n\n⚠️ Système temporairement indisponible. Nous vous contacterons rapidement !`;
-          }
-         
+          }*/
+
+          // 💳 Envoie une facture Telegram
+          await sendInvoice(
+            chatId,
+            "Licence ShepherdSignalsProfessional_ULTIMATE",
+            "Licence ULTIMATE valable 365 jours pour Shepherd Signals Professional.",
+            "lic_ultimate_payment",
+            "EUR",
+            [{ label: "Licence ULTIMATE", amount: 13500 }] // 135.00 EUR = 13500 cents
+          );
+          
+          text = `🧾 *Paiement en cours...*\n\nMerci d'attendre la fenêtre de paiement Telegram.`;
           markup = mainMenu;
           break;
       }
 
         case "lic_infinity":{
           userData[chatId].licence = "INFINITY";
-          const result = await saveUserData(userData[chatId]);
-          
+          /*const result = await saveUserData(userData[chatId]);
           if (result) {
             text = `🎁 *Licence INFINITY sélectionnée !*\n\n✅ *Vos informations :*\n• Nom: ${userData[chatId].prenom} ${userData[chatId].nom}\n• Email: ${userData[chatId].email}\n• Licence: INFINITY\n• Clé: ${result.LicenseKey}\n• Début: ${result.StartDate}\n\n📧 Nous vous contacterons rapidement pour l'activation !`;
           } else {
             text = `🎁 *Licence INFINITY sélectionnée !*\n\n✅ *Vos informations :*\n• Nom: ${userData[chatId].prenom} ${userData[chatId].nom}\n• Email: ${userData[chatId].email}\n• Licence: INFINITY\n\n⚠️ Système temporairement indisponible. Nous vous contacterons rapidement !`;
-          }
+          }*/
+
+          // 💳 Envoie une facture Telegram
+          await sendInvoice(
+            chatId,
+            "Licence ShepherdSignalsProfessional_INFINITY",
+            "Licence INFINITY valable à vie pour Shepherd Signals Professional.",
+            "lic_infinity_payment",
+            "EUR",
+            [{ label: "Licence INFINITY", amount: 19900 }] // 199.00 EUR = 19900 cents
+          );
           
+          text = `🧾 *Paiement en cours...*\n\nMerci d'attendre la fenêtre de paiement Telegram.`;
           markup = mainMenu;
           break;
         }
