@@ -124,6 +124,7 @@ async function saveUserData(userData) {
       pseudo: userData.pseudo,
       email: userData.email,
       licence: userData.licence,
+      mode: MODE,
       transaction_id: userData.transaction_id || "/",
       montant: userData.montant || "/",
       devise: userData.devise || "/"
