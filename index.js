@@ -29,7 +29,7 @@ const userData = {}; // 🆕 Stocke TOUTES les données utilisateur (nom, email,
 // ===============================
 // 🧠 Paiement via Telegram
 // ===============================
-async function sendInvoice(chatId, title, description, payload, currency, prices) {
+/*async function sendInvoice(chatId, title, description, payload, currency, prices) {
   const url = `${TELEGRAM_API}/sendInvoice`;
   const invoiceData = {
     chat_id: chatId,
@@ -90,6 +90,43 @@ async function saveUserData(userData) {
       pseudo: userData.pseudo,
       email: userData.email,
       licence: userData.licence
+    });
+    
+    if (response.data.ok) {
+      console.log("✅ Données sauvegardées dans Google Sheets, ligne:", response.data.row);
+      console.log("🔑 Clé de licence générée:", response.data.LicenseKey);
+      console.log("📅 Date de début:", response.data.StartDate);
+      return {
+        LicenseKey: response.data.LicenseKey,
+        StartDate: response.data.StartDate
+      };
+    } else {
+      console.error("❌ Erreur Google Sheets:", response.data.error);
+      return null;
+    }
+  } catch (error) {
+    console.error("❌ Erreur connexion Google Sheets:", error.message);
+    return null;
+  }
+}*/
+
+// 🆕 Fonction pour sauvegarder les données dans Google Sheets
+async function saveUserData(userData) {
+  console.log("📝 Données à sauvegarder:", userData);
+  
+  // URL de ton Web App Google Apps Script
+  const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwFvs1GBfOb1aLG8QdoF8z9jIER7SCjsOBytJZDNpfrGnaWmkEPc8GZUN7jFmsk6mKw/exec';
+  
+  try {
+    const response = await axios.post(GOOGLE_SCRIPT_URL, {
+      prenom: userData.prenom,
+      nom: userData.nom,
+      pseudo: userData.pseudo,
+      email: userData.email,
+      licence: userData.licence,
+      transaction_id: userData.transaction_id || "/",
+      montant: userData.montant || "/",
+      devise: userData.devise || "/"
     });
     
     if (response.data.ok) {
