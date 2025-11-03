@@ -29,7 +29,7 @@ const userData = {}; // 🆕 Stocke TOUTES les données utilisateur (nom, email,
 // ===============================
 // 🧠 Paiement via Telegram
 // ===============================
-/*async function sendInvoice(chatId, title, description, payload, currency, prices) {
+async function sendInvoice(chatId, title, description, payload, currency, prices) {
   const url = `${TELEGRAM_API}/sendInvoice`;
   const invoiceData = {
     chat_id: chatId,
@@ -77,7 +77,7 @@ const commandesMenu = {
 };
 
 // 🆕 Fonction pour sauvegarder les données dans Google Sheets
-async function saveUserData(userData) {
+/*async function saveUserData(userData) {
   console.log("📝 Données à sauvegarder:", userData);
   
   // URL de votre Web App Google Apps Script (à remplacer par votre URL)
