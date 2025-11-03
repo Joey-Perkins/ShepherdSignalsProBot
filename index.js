@@ -263,18 +263,38 @@ Essaie plutôt /start ou /help pour naviguer dans le bot.
     }
     
    if (message && message.successful_payment) {
-    const chatId = message.chat.id;
-    const payment = message.successful_payment;
-  
-    console.log("✅ Paiement reçu :", payment);
-  
-    await axios.post(`${TELEGRAM_API}/sendMessage`, {
-      chat_id: chatId,
-      text: `✅ *Paiement reçu avec succès !*\n\nMontant : ${payment.total_amount / 100} ${payment.currency}\nID de la transaction : ${payment.telegram_payment_charge_id}\n\nMerci pour votre achat 🎉`,
-      parse_mode: "Markdown"
-    });
-  return res.sendStatus(200); 
+  const chatId = message.chat.id;
+  const payment = message.successful_payment;
+
+  console.log("✅ Paiement reçu :", payment);
+
+  // 🆕 Ajout : compléter les infos avant envoi à Google Sheet
+  if (userData[chatId]) {
+    userData[chatId].montant = payment.total_amount / 100;
+    userData[chatId].devise = payment.currency;
+    userData[chatId].transaction_id = payment.telegram_payment_charge_id;
+
+    // 🔹 Enregistrement dans Google Sheet
+    const result = await saveUserData(userData[chatId]);
+    
+    if (result) {
+      await axios.post(`${TELEGRAM_API}/sendMessage`, {
+        chat_id: chatId,
+        text: `✅ *Paiement confirmé !*\n\n🔑 Clé de licence : ${result.LicenseKey}\n📅 Date : ${result.StartDate}\n\nMerci pour votre achat 🎉`,
+        parse_mode: "Markdown"
+      });
+    } else {
+      await axios.post(`${TELEGRAM_API}/sendMessage`, {
+        chat_id: chatId,
+        text: `⚠️ Paiement reçu mais erreur d’enregistrement dans la base. L’équipe va régulariser manuellement.`,
+        parse_mode: "Markdown"
+      });
+    }
   }
+  
+  return res.sendStatus(200);
+}
+
 
     // === Gestion des boutons ===
     if (callback) {
