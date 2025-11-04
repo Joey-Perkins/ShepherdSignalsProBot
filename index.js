@@ -324,7 +324,7 @@ Essaie plutôt /start ou /help pour naviguer dans le bot.
     } else {
       await axios.post(`${TELEGRAM_API}/sendMessage`, {
         chat_id: chatId,
-        text: `⚠️ Paiement reçu mais erreur d’enregistrement dans la base. L’équipe va régulariser manuellement.`,
+        text: `⚠️ Paiement reçu mais erreur d’enregistrement dans la base.\nSvp contactez-nous ici: @JoeyPerkins.\nL’équipe régularisera la situation.`,
         parse_mode: "Markdown"
       });
     }
@@ -465,9 +465,9 @@ Types :
           const result = await saveUserData(userData[chatId]);
           
           if (result) {
-            text = `🎁 *Licence DEMO sélectionnée !*\n\n✅ *Vos informations :*\n• Nom: ${userData[chatId].prenom} ${userData[chatId].nom}\n• Email: ${userData[chatId].email}\n• Licence: DEMO\n• Clé: ${result.LicenseKey}\n• Début: ${result.StartDate}\n\n📧 Nous vous contacterons rapidement pour l'activation !`;
+            text = `🎁 *Licence DEMO sélectionnée ! valable 10 jours pour Shepherd Signals Professional.*\n\n✅ *Vos informations :*\n• Nom: ${userData[chatId].prenom} ${userData[chatId].nom}\n• Email: ${userData[chatId].email}\n• Licence: DEMO\n• Clé: ${result.LicenseKey}\n• Début: ${result.StartDate}\n\n📧 Nous vous contacterons rapidement pour l'activation !`;
           } else {
-            text = `🎁 *Licence DEMO sélectionnée !*\n\n✅ *Vos informations :*\n• Nom: ${userData[chatId].prenom} ${userData[chatId].nom}\n• Email: ${userData[chatId].email}\n• Licence: DEMO\n\n⚠️ Système temporairement indisponible. Nous vous contacterons rapidement !`;
+            text = `🎁 *Licence DEMO sélectionnée ! valable 10 jours pour Shepherd Signals Professional.*\n\n✅ *Vos informations :*\n• Nom: ${userData[chatId].prenom} ${userData[chatId].nom}\n• Email: ${userData[chatId].email}\n• Licence: DEMO\n\n⚠️ Système temporairement indisponible. Veuillez reessayer à nouveau !`;
           }
           markup = mainMenu;
           break;
