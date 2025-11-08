@@ -337,13 +337,13 @@ Essaie plutôt /start ou /help pour naviguer dans le bot.
     // 🔹 Enregistrement dans Google Sheet
     const result = await saveUserData(userData[chatId]);
     
-    /*if (result) {
+    if (result) {
       await axios.post(`${TELEGRAM_API}/sendMessage`, {
         chat_id: chatId,
         text: `✅ *Paiement confirmé !*\n\n🔑 Clé : ${data.LicenseKey || "Non générée"}\n📅 Date : ${data.StartDate || "Non disponible"}\n\nMerci pour votre achat 🎉`,
         parse_mode: "Markdown"
-      });*/
-     if (result) {
+      });
+     /*if (result) {
       const licenseKey = result.LicenseKey || "Non générée";
       const startDate = result.StartDate || "Non disponible";
     
@@ -367,7 +367,7 @@ Essaie plutôt /start ou /help pour naviguer dans le bot.
             [{ text: "📥 Télécharger l’EA", url: downloadLink }]
           ]
         }
-      });
+      });*/
     } else {
       await axios.post(`${TELEGRAM_API}/sendMessage`, {
         chat_id: chatId,
