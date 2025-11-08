@@ -341,7 +341,7 @@ Essaie plutôt /start ou /help pour naviguer dans le bot.
       await axios.post(`${TELEGRAM_API}/sendMessage`, {
         chat_id: chatId,
         text: `✅ *Paiement confirmé !*\n\n🔑 Clé : ${result.LicenseKey || "Non générée"}\n📅 Date : ${result.StartDate || "Non disponible"}\n\nMerci pour votre achat 🎉`,
-        parse_mode: "Markdown"
+        parse_mode: "MarkdownV2"
       });
      /*if (result) {
       const licenseKey = result.LicenseKey || "Non générée";
