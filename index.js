@@ -49,6 +49,28 @@ async function sendInvoice(chatId, title, description, payload, currency, prices
   await axios.post(url, invoiceData);
 }
 
+// ===== utilitaires de masquage =====
+function maskKeyAsterisks(key, showStart = 3, showEnd = 3) {
+  if (!key) return "";
+  if (key.length <= showStart + showEnd) return "*".repeat(key.length);
+  const start = key.slice(0, showStart);
+  const end = key.slice(-showEnd);
+  return start + "*".repeat(Math.max(0, key.length - showStart - showEnd)) + end;
+}
+
+// Échappe pour MarkdownV2 (Telegram) — nécessaire si on utilise spoilers
+function escapeMarkdownV2(text) {
+  if (!text) return "";
+  return text.replace(/([_*\[\]()~`>#+\-=|{}.!\\])/g, "\\$1");
+}
+
+// Prépare un spoiler MarkdownV2
+function spoilerForTelegram(key) {
+  // escape d'abord pour MarkdownV2, puis entoure de || (spoiler)
+  return "||" + escapeMarkdownV2(key) + "||";
+}
+
+
 // ===============================
 // 🎛 Menus principaux
 // ===============================
@@ -315,12 +337,37 @@ Essaie plutôt /start ou /help pour naviguer dans le bot.
     // 🔹 Enregistrement dans Google Sheet
     const result = await saveUserData(userData[chatId]);
     
-    if (result) {
+    /*if (result) {
       await axios.post(`${TELEGRAM_API}/sendMessage`, {
         chat_id: chatId,
-        text: `✅ *Paiement confirmé !*\n\n🔑 Clé de licence : ${result.LicenseKey}\n📅 Date : ${result.StartDate}\n\nMerci pour votre achat 🎉`,
+        text: `✅ *Paiement confirmé !*\n\n🔑 Clé : ${data.LicenseKey || "Non générée"}\n📅 Date : ${data.StartDate || "Non disponible"}\n\nMerci pour votre achat 🎉`,
         parse_mode: "Markdown"
-      });
+      });*/
+    if (result) {
+    const licenseKey = data.LicenseKey || "Non générée";
+    const startDate = data.StartDate || "Non disponible";
+  
+    // 🔐 Masquage de la clé en spoiler MarkdownV2
+    const spoilerKey = spoilerForTelegram(licenseKey);
+      
+    // 🔗 Ton lien de téléchargement du canal privé
+    const downloadLink = "https://t.me/+1i0POPVI710xZTY0"; // 👉 remplace par ton vrai lien
+      
+    await axios.post(`${TELEGRAM_API}/sendMessage`, {
+        chat_id: chatId,
+        text:
+          `✅ *Paiement confirmé !*\n\n` +
+          `🔑 *Clé de licence* : ${spoilerKey}\n` +
+          `📅 *Date d'activation* : ${escapeMarkdownV2(startDate)}\n\n` +
+          `🎉 Merci pour votre achat et bienvenue parmi les utilisateurs Shepherd Signals Pro !\n\n` +
+          `Veuillez télécharger l’EA en cliquant sur le bouton ci-dessous ⬇️`,
+        parse_mode: "MarkdownV2",
+        reply_markup: {
+          inline_keyboard: [[
+            { text: "📥 Télécharger l’EA", url: downloadLink }
+          ]]
+        }
+    });
     } else {
       await axios.post(`${TELEGRAM_API}/sendMessage`, {
         chat_id: chatId,
