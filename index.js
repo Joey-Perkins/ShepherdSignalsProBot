@@ -343,17 +343,17 @@ Essaie plutôt /start ou /help pour naviguer dans le bot.
         text: `✅ *Paiement confirmé !*\n\n🔑 Clé : ${data.LicenseKey || "Non générée"}\n📅 Date : ${data.StartDate || "Non disponible"}\n\nMerci pour votre achat 🎉`,
         parse_mode: "Markdown"
       });*/
-    if (result) {
-    const licenseKey = data.LicenseKey || "Non générée";
-    const startDate = data.StartDate || "Non disponible";
-  
-    // 🔐 Masquage de la clé en spoiler MarkdownV2
-    const spoilerKey = spoilerForTelegram(licenseKey);
-      
-    // 🔗 Ton lien de téléchargement du canal privé
-    const downloadLink = "https://t.me/+1i0POPVI710xZTY0"; // 👉 remplace par ton vrai lien
-      
-    await axios.post(`${TELEGRAM_API}/sendMessage`, {
+     if (result) {
+      const licenseKey = result.LicenseKey || "Non générée";
+      const startDate = result.StartDate || "Non disponible";
+    
+      // 🔐 Masquage de la clé dans un spoiler Telegram MarkdownV2
+      const spoilerKey = spoilerForTelegram(licenseKey);
+    
+      // 🔗 Lien de téléchargement de ton canal Telegram (à personnaliser)
+      const downloadLink = "https://t.me/+1i0POPVI710xZTY0";
+    
+      await axios.post(`${TELEGRAM_API}/sendMessage`, {
         chat_id: chatId,
         text:
           `✅ *Paiement confirmé !*\n\n` +
@@ -363,15 +363,15 @@ Essaie plutôt /start ou /help pour naviguer dans le bot.
           `Veuillez télécharger l’EA en cliquant sur le bouton ci-dessous ⬇️`,
         parse_mode: "MarkdownV2",
         reply_markup: {
-          inline_keyboard: [[
-            { text: "📥 Télécharger l’EA", url: downloadLink }
-          ]]
+          inline_keyboard: [
+            [{ text: "📥 Télécharger l’EA", url: downloadLink }]
+          ]
         }
-    });
+      });
     } else {
       await axios.post(`${TELEGRAM_API}/sendMessage`, {
         chat_id: chatId,
-        text: `⚠️ Paiement reçu mais erreur d’enregistrement dans la base.\nSvp contactez-nous ici: @JoeyPerkins.\nL’équipe régularisera la situation.`,
+        text: `⚠️ Paiement reçu mais erreur d’enregistrement dans la base.\n\nContactez-nous ici : @JoeyPerkins`,
         parse_mode: "Markdown"
       });
     }
