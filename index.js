@@ -343,7 +343,24 @@ Essaie plutôt /start ou /help pour naviguer dans le bot.
         text: `✅ *Paiement confirmé !*\n\n🔑 Clé : ${result.LicenseKey || "Non générée"}\n📅 Date : ${result.StartDate || "Non disponible"}\n\nMerci pour votre achat 🎉`,
         parse_mode: "Markdown"
       });*/
-     if (result) {
+      if (result){
+        await axios.post(`${TELEGRAM_API}/sendMessage`, {
+        chat_id: chatId,
+        text: `
+      ✅ <b>Paiement confirmé !</b><br><br>
+      🔑 <b>Clé de licence :</b> <tg-spoiler>${result.LicenseKey}</tg-spoiler><br>
+      📅 <b>Date d’activation :</b> ${result.StartDate}<br><br>
+      🎉 Merci pour votre achat et bienvenue parmi les utilisateurs Shepherd Signals Pro !<br><br>
+      Veuillez télécharger l’EA en cliquant sur le bouton ci-dessous ⬇️
+        `,
+        parse_mode: "HTML",
+        reply_markup: {
+          inline_keyboard: [
+            [{ text: "📥 Télécharger l’EA", url: "https://t.me/+1i0POPVI710xZTY0" }]
+          ]
+        }
+      });
+     /*if (result) {
       const licenseKey = result.LicenseKey || "Non générée";
       const startDate = result.StartDate || "Non disponible";
       // 🔐 Masquage de la clé dans un spoiler Telegram MarkdownV2
@@ -365,7 +382,7 @@ Essaie plutôt /start ou /help pour naviguer dans le bot.
             [{ text: "📥 Télécharger l’EA", url: downloadLink }]
           ]
         }
-      });
+      });*/
     } else {
       await axios.post(`${TELEGRAM_API}/sendMessage`, {
         chat_id: chatId,
