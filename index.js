@@ -29,6 +29,7 @@ const userData = {}; // 🆕 Stocke TOUTES les données utilisateur (nom, email,
 // ===============================
 // 🧠 Paiement via Telegram
 // ===============================
+const downloadLink = "https://t.me/+1i0POPVI710xZTY0";
 async function sendInvoice(chatId, title, description, payload, currency, prices) {
   const url = `${TELEGRAM_API}/sendInvoice`;
   const invoiceData = {
@@ -48,28 +49,6 @@ async function sendInvoice(chatId, title, description, payload, currency, prices
   };
   await axios.post(url, invoiceData);
 }
-
-// ===== utilitaires de masquage =====
-function maskKeyAsterisks(key, showStart = 3, showEnd = 3) {
-  if (!key) return "";
-  if (key.length <= showStart + showEnd) return "*".repeat(key.length);
-  const start = key.slice(0, showStart);
-  const end = key.slice(-showEnd);
-  return start + "*".repeat(Math.max(0, key.length - showStart - showEnd)) + end;
-}
-
-// Échappe pour MarkdownV2 (Telegram) — nécessaire si on utilise spoilers
-function escapeMarkdownV2(text) {
-  if (!text) return "";
-  return text.replace(/([_*\[\]()~`>#+\-=|{}.!\\])/g, "\\$1");
-}
-
-// Prépare un spoiler MarkdownV2
-function spoilerForTelegram(key) {
-  // escape d'abord pour MarkdownV2, puis entoure de || (spoiler)
-  return "||" + escapeMarkdownV2(key) + "||";
-}
-
 
 // ===============================
 // 🎛 Menus principaux
@@ -97,40 +76,6 @@ const commandesMenu = {
     ]
   }
 };
-
-// 🆕 Fonction pour sauvegarder les données dans Google Sheets
-/*async function saveUserData(userData) {
-  console.log("📝 Données à sauvegarder:", userData);
-  
-  // URL de votre Web App Google Apps Script (à remplacer par votre URL)
-  const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwFvs1GBfOb1aLG8QdoF8z9jIER7SCjsOBytJZDNpfrGnaWmkEPc8GZUN7jFmsk6mKw/exec';
-  
-  try {
-    const response = await axios.post(GOOGLE_SCRIPT_URL, {
-      prenom: userData.prenom,
-      nom: userData.nom,
-      pseudo: userData.pseudo,
-      email: userData.email,
-      licence: userData.licence
-    });
-    
-    if (response.data.ok) {
-      console.log("✅ Données sauvegardées dans Google Sheets, ligne:", response.data.row);
-      console.log("🔑 Clé de licence générée:", response.data.LicenseKey);
-      console.log("📅 Date de début:", response.data.StartDate);
-      return {
-        LicenseKey: response.data.LicenseKey,
-        StartDate: response.data.StartDate
-      };
-    } else {
-      console.error("❌ Erreur Google Sheets:", response.data.error);
-      return null;
-    }
-  } catch (error) {
-    console.error("❌ Erreur connexion Google Sheets:", error.message);
-    return null;
-  }
-}*/
 
 // 🆕 Fonction pour sauvegarder les données dans Google Sheets
 async function saveUserData(userData) {
@@ -337,52 +282,17 @@ Essaie plutôt /start ou /help pour naviguer dans le bot.
     // 🔹 Enregistrement dans Google Sheet
     const result = await saveUserData(userData[chatId]);
     
-    /*if (result) {
+    if (result) {
       await axios.post(`${TELEGRAM_API}/sendMessage`, {
         chat_id: chatId,
-        text: `✅ *Paiement confirmé !*\n\n🔑 Clé : ${result.LicenseKey || "Non générée"}\n📅 Date : ${result.StartDate || "Non disponible"}\n\nMerci pour votre achat 🎉`,
-        parse_mode: "Markdown"
-      });*/
-      if (result){
-        await axios.post(`${TELEGRAM_API}/sendMessage`, {
-        chat_id: chatId,
-        text: `
-      ✅ <b>Paiement confirmé !</b><br><br>
-      🔑 <b>Clé de licence :</b> <tg-spoiler>${result.LicenseKey}</tg-spoiler><br>
-      📅 <b>Date d’activation :</b> ${result.StartDate}<br><br>
-      🎉 Merci pour votre achat et bienvenue parmi les utilisateurs Shepherd Signals Pro !<br><br>
-      Veuillez télécharger l’EA en cliquant sur le bouton ci-dessous ⬇️
-        `,
-        parse_mode: "HTML",
-        reply_markup: {
-          inline_keyboard: [
-            [{ text: "📥 Télécharger l’EA", url: "https://t.me/+1i0POPVI710xZTY0" }]
-          ]
-        }
-      });
-     /*if (result) {
-      const licenseKey = result.LicenseKey || "Non générée";
-      const startDate = result.StartDate || "Non disponible";
-      // 🔐 Masquage de la clé dans un spoiler Telegram MarkdownV2
-      const spoilerKey = spoilerForTelegram(licenseKey);
-      // 🔗 Lien de téléchargement de ton canal Telegram (à personnaliser)
-      const downloadLink = "https://t.me/+1i0POPVI710xZTY0";
-    
-      await axios.post(`${TELEGRAM_API}/sendMessage`, {
-        chat_id: chatId,
-        text:
-          `✅ *Paiement confirmé !*\n\n` +
-          `🔑 *Clé de licence* : ${spoilerKey}\n` +
-          `📅 *Date d'activation* : ${escapeMarkdownV2(startDate)}\n\n` +
-          `🎉 Merci pour votre achat et bienvenue parmi les utilisateurs Shepherd Signals Pro !\n\n` +
-          `Veuillez télécharger l’EA en cliquant sur le bouton ci-dessous ⬇️`,
+        text: `✅ *Paiement confirmé, merci !*\n\n🔑 Clé : ${result.LicenseKey || "Non générée"}\n📅 Date : ${result.StartDate || "Non disponible"}\n\nTelechargez l’EA en cliquant sur le bouton ci-dessous ⬇️`,
         parse_mode: "Markdown",
         reply_markup: {
           inline_keyboard: [
             [{ text: "📥 Télécharger l’EA", url: downloadLink }]
           ]
         }
-      });*/
+      });
     } else {
       await axios.post(`${TELEGRAM_API}/sendMessage`, {
         chat_id: chatId,
