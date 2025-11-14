@@ -7,8 +7,10 @@ import axios from "axios";
 const MODE = process.env.MODE || "test"; // "test" ou "prod"
 const PAYMENT_TOKEN =
   MODE === "prod"
-    ? process.env.PAYMENT_TOKEN_PROD
-    : process.env.PAYMENT_TOKEN_TEST;
+    ? process.env.PAYMENT_TOKEN_TEST
+    : process.env.PAYMENT_TOKEN_PROD;
+  /*? process.env.PAYMENT_TOKEN_PROD
+    : process.env.PAYMENT_TOKEN_TEST;*/
 
 console.log(`💳 Mode de paiement actif : ${MODE.toUpperCase()}`);
 
